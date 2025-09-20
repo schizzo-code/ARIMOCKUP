@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARI Reclutamiento - Juan Pérez</title>
+    <style>
+        :root {
+            --background: oklch(1.0000 0 0);
+            --foreground: oklch(0.1884 0.0128 248.5103);
+            --card: oklch(0.9784 0.0011 197.1387);
+            --card-foreground: oklch(0.1884 0.0128 248.5103);
+            --primary: oklch(0.8015 0.1571 90.9558);
+            --primary-foreground: oklch(1.0000 0 0);
+            --secondary: oklch(0.1884 0.0128 248.5103);
+            --secondary-foreground: oklch(1.0000 0 0);
+            --muted: oklch(0.9222 0.0013 286.3737);
+            --muted-foreground: oklch(0.1884 0.0128 248.5103);
+            --accent: oklch(0.9392 0.0166 250.8453);
+            --accent-foreground: oklch(0.6723 0.1606 244.9955);
+            --border: oklch(0.9317 0.0118 231.6594);
+            --destructive: oklch(0.6188 0.2376 25.7658);
+            --destructive-foreground: oklch(1.0000 0 0);
+            --sidebar: oklch(0.9784 0.0011 197.1387);
+            --sidebar-foreground: oklch(0.1884 0.0128 248.5103);
+            --sidebar-border: oklch(0.9271 0.0101 238.5177);
+            --font-sans: 'Open Sans', sans-serif;
+            --radius: 1.3rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--background);
+            color: var(--foreground);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .top-header {
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .notification-btn:hover {
+            background: var(--accent);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 8px;
+            height: 8px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .user-profile:hover {
+            background: var(--accent);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+        }
+
+        .icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .icon-dashboard {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>') no-repeat center;
+        }
+
+        .icon-users {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/></svg>') no-repeat center;
+        }
+
+        .icon-briefcase {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0H8m8 0v2a2 2 0 01-2 2H10a2 2 0 01-2-2V6m8 0V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2z"/></svg>') no-repeat center;
+        }
+
+        .icon-calendar {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>') no-repeat center;
+        }
+
+        .icon-chart {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>') no-repeat center;
+        }
+
+        .icon-settings {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>') no-repeat center;
+        }
+
+        .icon-bell {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>') no-repeat center;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--sidebar);
+            border-right: 1px solid var(--sidebar-border);
+            padding: 1rem;
+        }
+
+        .logo {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem;
+            color: var(--sidebar-foreground);
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--accent);
+            color: var(--accent-foreground);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 2rem 2rem 1rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--background);
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            color: var(--muted-foreground);
+        }
+
+        .breadcrumb a {
+            color: var(--accent-foreground);
+            text-decoration: none;
+        }
+
+        .candidate-header {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .candidate-avatar-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .candidate-basic-info {
+            flex: 1;
+        }
+
+        .candidate-name {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .candidate-title {
+            font-size: 1.2rem;
+            color: var(--muted-foreground);
+            margin-bottom: 1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .match-score-large {
+            text-align: center;
+            padding: 1rem;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border-radius: var(--radius);
+            min-width: 120px;
+        }
+
+        .match-percentage {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .match-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1rem;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--secondary-foreground);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--foreground);
+            border: 1px solid var(--border);
+        }
+
+        .tabs {
+            padding: 0 2rem;
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab-list {
+            display: flex;
+            gap: 0;
+            list-style: none;
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .tab-button.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .tab-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        .criteria-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .criteria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .criteria-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+        }
+
+        .criteria-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .criteria-type {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .status-met {
+            background: #22c55e;
+        }
+
+        .status-partial {
+            background: #f59e0b;
+        }
+
+        .status-missing {
+            background: #ef4444;
+        }
+
+        .criteria-list {
+            list-style: none;
+        }
+
+        .criteria-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .criteria-item:last-child {
+            border-bottom: none;
+        }
+
+        .criteria-name {
+            font-weight: 500;
+        }
+
+        .criteria-status {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+        }
+
+        .status-yes {
+            background: #22c55e;
+            color: white;
+        }
+
+        .status-no {
+            background: #ef4444;
+            color: white;
+        }
+
+        .status-partial-bg {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .form-section {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-field {
+            margin-bottom: 1.5rem;
+        }
+
+        .field-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .field-value {
+            color: var(--muted-foreground);
+        }
+
+        .cv-viewer {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .cv-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .cv-preview {
+            background: var(--muted);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+            color: var(--muted-foreground);
+            margin-bottom: 1rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.75rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 2px solid var(--background);
+        }
+
+        .timeline-content {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+        }
+
+        .timeline-date {
+            font-size: 0.8rem;
+            color: var(--muted-foreground);
+        }
+
+        .timeline-description {
+            color: var(--muted-foreground);
+            font-size: 0.9rem;
+        }
+
+        .evaluation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .evaluation-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+        }
+
+        .evaluation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .evaluation-score {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .score-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--muted);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .score-fill {
+            height: 100%;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .document-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .document-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+        }
+
+        .document-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            color: var(--accent-foreground);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .document-info {
+            flex: 1;
+        }
+
+        .document-name {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .document-meta {
+            font-size: 0.8rem;
+            color: var(--muted-foreground);
+        }
+
+        .document-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            background: var(--background);
+            border-radius: 0.25rem;
+            cursor: pointer;
+            color: var(--foreground);
+        }
+
+        .action-btn:hover {
+            background: var(--accent);
+        }
+
+        .interview-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .interview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .interview-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .interview-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-completed {
+            background: #22c55e;
+            color: white;
+        }
+
+        .status-scheduled {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .interview-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .detail-item {
+            font-size: 0.9rem;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: var(--muted-foreground);
+        }
+
+        .transcript-section {
+            background: var(--muted);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .transcript-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .search-transcript {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 0.25rem;
+            width: 250px;
+        }
+
+        .transcript-content {
+            background: var(--background);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .transcript-line {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+        }
+
+        .transcript-line.highlighted {
+            background: yellow;
+        }
+
+        .speaker {
+            font-weight: 600;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <button class="notification-btn">
+            <span class="icon icon-bell"></span>
+            <span class="notification-badge"></span>
+        </button>
+        <div class="user-profile">
+            <div class="user-avatar">A</div>
+            <span class="user-name">Admin</span>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>ARI</h1>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="dashboard.html" class="nav-link"><span class="icon icon-dashboard"></span>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="puestos.html" class="nav-link"><span class="icon icon-briefcase"></span>Puestos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="candidatos.html" class="nav-link active"><span class="icon icon-users"></span>Candidatos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="calendario.html" class="nav-link"><span class="icon icon-calendar"></span>Calendario</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="informes.html" class="nav-link"><span class="icon icon-chart"></span>Informes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link"><span class="icon icon-settings"></span>Configuración</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+        <header class="header">
+            <div class="breadcrumb">
+                <a href="candidatos.html">Candidatos</a> / Juan Pérez
+            </div>
+
+            <div class="candidate-header">
+                <div class="candidate-avatar-large">JP</div>
+                <div class="candidate-basic-info">
+                    <h1 class="candidate-name">Juan Pérez</h1>
+                    <div class="candidate-title">Desarrollador Full Stack Senior</div>
+
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span>⏱️</span>
+                            <span>5 años de experiencia</span>
+                        </div>
+                        <div class="info-item">
+                            <span>📍</span>
+                            <span>Lima, Perú</span>
+                        </div>
+                        <div class="info-item">
+                            <span>💰</span>
+                            <span>$180,000 / mes</span>
+                        </div>
+                        <div class="info-item">
+                            <span>📧</span>
+                            <span>juan.perez@email.com</span>
+                        </div>
+                        <div class="info-item">
+                            <span>📱</span>
+                            <span>+54 11 1234-5678</span>
+                        </div>
+                        <div class="info-item">
+                            <span>📥</span>
+                            <span>LinkedIn</span>
+                        </div>
+                    </div>
+
+                    <div class="header-actions">
+                        <button class="btn">💼 Asignar a puesto</button>
+                        <button class="btn btn-secondary">✉️ Enviar mensaje</button>
+                        <button class="btn btn-outline">📅 Agendar entrevista</button>
+                        <button class="btn btn-outline">📝 Agregar nota</button>
+                        <button class="btn btn-outline">🏷️ Etiquetar</button>
+                    </div>
+                </div>
+                <div class="match-score-large">
+                    <div class="match-percentage">85%</div>
+                    <div class="match-label">Match Score</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <ul class="tab-list">
+                <li><button class="tab-button active" data-tab="resumen">Resumen</button></li>
+                <li><button class="tab-button" data-tab="formulario">Formulario</button></li>
+                <li><button class="tab-button" data-tab="cv">CV</button></li>
+                <li><button class="tab-button" data-tab="evaluaciones">Evaluaciones</button></li>
+                <li><button class="tab-button" data-tab="entrevistas">Entrevistas</button></li>
+                <li><button class="tab-button" data-tab="historial">Historial</button></li>
+                <li><button class="tab-button" data-tab="documentos">Documentos</button></li>
+            </ul>
+        </div>
+
+        <div class="tab-content">
+            <!-- Resumen Tab -->
+            <div class="tab-pane active" id="resumen">
+                <div class="criteria-section">
+                    <h2 class="section-title">Criterios de evaluación</h2>
+                    <div class="criteria-grid">
+                        <div class="criteria-card">
+                            <div class="criteria-header">
+                                <div class="criteria-type">
+                                    <div class="status-indicator status-met"></div>
+                                    Criterios Críticos
+                                </div>
+                                <span style="font-weight: bold; color: #22c55e;">5/5</span>
+                            </div>
+                            <ul class="criteria-list">
+                                <li class="criteria-item">
+                                    <span class="criteria-name">React (3+ años)</span>
+                                    <span class="criteria-status status-yes">✓ 5 años</span>
+                                </li>
+                                <li class="criteria-item">
+                                    <span class="criteria-name">Node.js</span>
+                                    <span class="criteria-status status-yes">✓ 4 años</span>
+                                </li>
+                                <li class="criteria-item">
+                                    <span class="criteria-name">PostgreSQL</span>
+                                    <span class="criteria-status status-yes">✓ 3 años</span>
+                                </li>
+                                <li class="criteria-item">
+                                    <span class="criteria-name">Inglés intermedio</span>
+                                    <span class="criteria-status status-yes">✓ B2</span>
+                                </li>
+                                <li class="criteria-item">
+                                    <span class="criteria-name">Disponibilidad full-time</span>
+                                    <span class="criteria-status status-yes">✓ Sí</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="criteria-card">
+                            <div class="criteria-header">
+                                <div class="criteria-type">
+                                    <div class="status-indicator status-partial"></div>
+                                    Criterios Deseables
+                                </div>
+                                <span style="font-weight: bold; color: #f59e0b;">3/5</span>
+                            </div>
+                            <ul class="criteria-list">
+                                <li class="criteria-item">
+                                    <span class="criteria-name">TypeScript</span>
+                                    <span class="criteria-status status-yes">✓ 2 años</span>
+                                </li>
+                                <li class="criteria-item">
+                                    <span class="criteria-name">AWS</span>
+                                    <span class="criteria-status status-partial-bg">~ Básico</span>
+                                </li>
+                                <li class="criteria-item">
+                                    <span class="criteria-name">Docker</span>
+                                    <span class="criteria-status status-no">✗ No</span>
+                                </li>
+                                <li class="criteria-item">
+                                    <span class="criteria-name">Testing (Jest)</span>
+                                    <span class="criteria-status status-yes">✓ Sí</span>
+                                </li>
+                                <li class="criteria-item">
+                                    <span class="criteria-name">Metodologías ágiles</span>
+                                    <span class="criteria-status status-no">✗ No</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="criteria-section">
+                    <h2 class="section-title">Alertas y observaciones</h2>
+                    <div class="criteria-card" style="border-left: 4px solid #f59e0b;">
+                        <h4 style="color: #f59e0b; margin-bottom: 1rem;">Gaps identificados</h4>
+                        <ul style="margin-left: 1rem;">
+                            <li>Sin experiencia en Docker - requerido para el stack actual</li>
+                            <li>Conocimiento básico de AWS - podría necesitar capacitación</li>
+                            <li>No menciona experiencia en metodologías ágiles</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulario Tab -->
+            <div class="tab-pane" id="formulario">
+                <div class="form-section">
+                    <h3 class="section-title">Declaración jurada</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                        <div class="form-field">
+                            <label class="field-label">Disponibilidad para trabajar</label>
+                            <div class="field-value">Full-time, inmediata</div>
+                        </div>
+                        <div class="form-field">
+                            <label class="field-label">Pretensión salarial</label>
+                            <div class="field-value">$180,000 - $200,000 ARS</div>
+                        </div>
+                        <div class="form-field">
+                            <label class="field-label">Modalidad preferida</label>
+                            <div class="field-value">Híbrido (3 días oficina)</div>
+                        </div>
+                        <div class="form-field">
+                            <label class="field-label">Nivel de inglés</label>
+                            <div class="field-value">Intermedio (B2) - Conversacional</div>
+                        </div>
+                        <div class="form-field">
+                            <label class="field-label">Experiencia en React</label>
+                            <div class="field-value">5 años - Avanzado</div>
+                        </div>
+                        <div class="form-field">
+                            <label class="field-label">Experiencia en Node.js</label>
+                            <div class="field-value">4 años - Intermedio/Avanzado</div>
+                        </div>
+                        <div class="form-field">
+                            <label class="field-label">Base de datos</label>
+                            <div class="field-value">PostgreSQL (3 años), MySQL (2 años)</div>
+                        </div>
+                        <div class="form-field">
+                            <label class="field-label">Herramientas de testing</label>
+                            <div class="field-value">Jest, React Testing Library</div>
+                        </div>
+                    </div>
+
+                    <div class="form-field" style="margin-top: 2rem;">
+                        <label class="field-label">Comentarios adicionales</label>
+                        <div class="field-value" style="padding: 1rem; background: var(--muted); border-radius: 0.5rem;">
+                            "Tengo experiencia liderando equipos pequeños y me interesa mucho el crecimiento profesional. Estoy particularmente interesado en proyectos que involucren arquitecturas escalables y buenas prácticas de desarrollo."
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem; padding: 1rem; background: #22c55e; color: white; border-radius: 0.5rem;">
+                        ✓ El candidato acepta la veracidad de la información proporcionada
+                    </div>
+                </div>
+            </div>
+
+            <!-- CV Tab -->
+            <div class="tab-pane" id="cv">
+                <div class="cv-viewer">
+                    <div class="cv-actions">
+                        <button class="btn">📥 Descargar CV</button>
+                        <button class="btn btn-outline">🔍 Ver en pantalla completa</button>
+                        <button class="btn btn-outline">📧 Solicitar CV actualizado</button>
+                    </div>
+
+                    <div class="cv-preview">
+                        📄 CV - Juan Pérez<br>
+                        <small>Archivo: juan_perez_cv.pdf | 2.3 MB | Subido: 10/09/2024</small>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                        <div>
+                            <h4 style="margin-bottom: 1rem;">Educación</h4>
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-content">
+                                        <div class="timeline-header">
+                                            <div class="timeline-title">Lic. en Sistemas</div>
+                                            <div class="timeline-date">2016 - 2020</div>
+                                        </div>
+                                        <div class="timeline-description">Universidad de Buenos Aires</div>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-content">
+                                        <div class="timeline-header">
+                                            <div class="timeline-title">Curso React Avanzado</div>
+                                            <div class="timeline-date">2022</div>
+                                        </div>
+                                        <div class="timeline-description">Coderhouse - Certificación</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 style="margin-bottom: 1rem;">Experiencia</h4>
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-content">
+                                        <div class="timeline-header">
+                                            <div class="timeline-title">Sr. Full Stack Developer</div>
+                                            <div class="timeline-date">2022 - Actual</div>
+                                        </div>
+                                        <div class="timeline-description">
+                                            TechStart SA - Desarrollo de aplicaciones web con React y Node.js
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-content">
+                                        <div class="timeline-header">
+                                            <div class="timeline-title">Full Stack Developer</div>
+                                            <div class="timeline-date">2020 - 2022</div>
+                                        </div>
+                                        <div class="timeline-description">
+                                            DevCorp - Desarrollo y mantenimiento de sistemas internos
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Evaluaciones Tab -->
+            <div class="tab-pane" id="evaluaciones">
+                <div class="evaluation-grid">
+                    <div class="evaluation-card">
+                        <div class="evaluation-header">
+                            <h4>🧪 Prueba Técnica</h4>
+                            <div class="evaluation-score">87/100</div>
+                        </div>
+                        <div class="score-bar">
+                            <div class="score-fill" style="width: 87%"></div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: var(--muted-foreground);">
+                            <p><strong>Fecha:</strong> 12/09/2024</p>
+                            <p><strong>Duración:</strong> 3 horas</p>
+                            <p><strong>Plataforma:</strong> HackerRank</p>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <button class="btn btn-outline" style="width: 100%;">Ver resultados detallados</button>
+                        </div>
+                    </div>
+
+                    <div class="evaluation-card">
+                        <div class="evaluation-header">
+                            <h4>🧠 Evaluación Psicométrica</h4>
+                            <div class="evaluation-score">Percentil 78</div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: var(--muted-foreground); margin-bottom: 1rem;">
+                            <p><strong>Fecha:</strong> 13/09/2024</p>
+                            <p><strong>Plataforma:</strong> Evaluar.com</p>
+                        </div>
+                        <div style="display: grid; gap: 0.5rem;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Liderazgo</span>
+                                <span style="font-weight: bold;">Alto</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Trabajo en equipo</span>
+                                <span style="font-weight: bold;">Muy Alto</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Adaptabilidad</span>
+                                <span style="font-weight: bold;">Alto</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Resolución de problemas</span>
+                                <span style="font-weight: bold;">Muy Alto</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <button class="btn btn-outline" style="width: 100%;">Ver informe completo</button>
+                        </div>
+                    </div>
+
+                    <div class="evaluation-card">
+                        <div class="evaluation-header">
+                            <h4>🗣️ Evaluación de Inglés</h4>
+                            <div class="evaluation-score">B2</div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: var(--muted-foreground); margin-bottom: 1rem;">
+                            <p><strong>Fecha:</strong> 14/09/2024</p>
+                            <p><strong>Modalidad:</strong> Entrevista oral + escrita</p>
+                        </div>
+                        <div style="display: grid; gap: 0.5rem;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Speaking</span>
+                                <span style="font-weight: bold;">B2</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Listening</span>
+                                <span style="font-weight: bold;">B2+</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Reading</span>
+                                <span style="font-weight: bold;">B2</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Writing</span>
+                                <span style="font-weight: bold;">B1+</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <button class="btn btn-outline" style="width: 100%;">Ver evaluación detallada</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entrevistas Tab -->
+            <div class="tab-pane" id="entrevistas">
+                <div class="interview-card">
+                    <div class="interview-header">
+                        <div class="interview-title">🎯 Entrevista Técnica Interna</div>
+                        <div class="interview-status status-completed">Completada</div>
+                    </div>
+                    <div class="interview-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Fecha:</div>
+                            <div>15/09/2024 - 14:00hs</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Entrevistador:</div>
+                            <div>Juan Martínez (Tech Lead)</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Duración:</div>
+                            <div>45 minutos</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Modalidad:</div>
+                            <div>Zoom (grabada)</div>
+                        </div>
+                    </div>
+
+                    <div style="margin: 1rem 0;">
+                        <h4 style="margin-bottom: 0.5rem;">📝 Notas del entrevistador:</h4>
+                        <div style="background: var(--muted); padding: 1rem; border-radius: 0.5rem;">
+                            "Excelente candidato. Demuestra sólidos conocimientos técnicos en React y Node.js.
+                            Buena capacidad de comunicación y pensamiento crítico. Algunas dudas menores en
+                            optimización de queries SQL, pero nada preocupante. Recomiendo avanzar."
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn">📝 Ver notas completas</button>
+                        <button class="btn btn-outline">🎥 Ver grabación</button>
+                        <button class="btn btn-outline">📄 Ver transcripción</button>
+                    </div>
+
+                    <div class="transcript-section">
+                        <div class="transcript-header">
+                            <h4>📄 Transcripción disponible</h4>
+                            <input type="search" placeholder="Buscar en transcripción..." class="search-transcript">
+                        </div>
+                        <div class="transcript-content">
+                            <div class="transcript-line">
+                                <span class="speaker">Entrevistador:</span> ¿Podrías contarme sobre tu experiencia con React?
+                            </div>
+                            <div class="transcript-line">
+                                <span class="speaker">Juan:</span> Por supuesto. He trabajado con React por más de 5 años, comenzando desde las versiones con clases hasta los hooks actuales...
+                            </div>
+                            <div class="transcript-line">
+                                <span class="speaker">Entrevistador:</span> Interesante. ¿Cómo manejas el estado en aplicaciones complejas?
+                            </div>
+                            <div class="transcript-line highlighted">
+                                <span class="speaker">Juan:</span> Depende del caso. Para estado local uso useState y useReducer, pero para estado global prefiero Context API o Redux Toolkit...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interview-card">
+                    <div class="interview-header">
+                        <div class="interview-title">🤝 Entrevista con Cliente</div>
+                        <div class="interview-status status-scheduled">Agendada</div>
+                    </div>
+                    <div class="interview-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Fecha:</div>
+                            <div>21/09/2024 - 15:00hs</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Cliente:</div>
+                            <div>TechCorp - CTO</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Modalidad:</div>
+                            <div>Presencial</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Estado:</div>
+                            <div style="color: #f59e0b;">Confirmada por ambas partes</div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <button class="btn">📅 Reagendar</button>
+                        <button class="btn btn-outline">📝 Agregar preparación</button>
+                        <button class="btn btn-outline">✉️ Enviar recordatorio</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Historial Tab -->
+            <div class="tab-pane" id="historial">
+                <h3 class="section-title">Línea de tiempo</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <div class="timeline-title">Agendada entrevista con cliente</div>
+                                <div class="timeline-date">Hoy - 10:30</div>
+                            </div>
+                            <div class="timeline-description">
+                                Juan Martínez programó entrevista con TechCorp para el 21/09 a las 15:00hs
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <div class="timeline-title">Entrevista técnica completada</div>
+                                <div class="timeline-date">15/09 - 14:45</div>
+                            </div>
+                            <div class="timeline-description">
+                                Entrevista técnica realizada por Juan Martínez. Resultado: Aprobado con excelente calificación.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <div class="timeline-title">Evaluación de inglés completada</div>
+                                <div class="timeline-date">14/09 - 16:00</div>
+                            </div>
+                            <div class="timeline-description">
+                                Nivel evaluado: B2 (Intermedio Alto). Apto para posiciones que requieren inglés conversacional.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <div class="timeline-title">Prueba psicométrica realizada</div>
+                                <div class="timeline-date">13/09 - 11:00</div>
+                            </div>
+                            <div class="timeline-description">
+                                Evaluación completada en Evaluar.com. Percentil 78, perfil de liderazgo alto.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <div class="timeline-title">Prueba técnica aprobada</div>
+                                <div class="timeline-date">12/09 - 18:30</div>
+                            </div>
+                            <div class="timeline-description">
+                                Puntaje: 87/100 en HackerRank. Destacó en algoritmos y estructuras de datos.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <div class="timeline-title">Primer contacto realizado</div>
+                                <div class="timeline-date">11/09 - 09:15</div>
+                            </div>
+                            <div class="timeline-description">
+                                Contacto inicial por WhatsApp. Candidato interesado, se envió información del puesto.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <div class="timeline-title">Candidato postulado</div>
+                                <div class="timeline-date">10/09 - 14:22</div>
+                            </div>
+                            <div class="timeline-description">
+                                Postulación recibida desde LinkedIn para "Desarrollador Full Stack Sr." - TechCorp
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Documentos Tab -->
+            <div class="tab-pane" id="documentos">
+                <div style="margin-bottom: 2rem;">
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                        <button class="btn">📤 Subir documento</button>
+                        <button class="btn btn-outline">📁 Crear carpeta</button>
+                    </div>
+                </div>
+
+                <div class="document-list">
+                    <div class="document-item">
+                        <div class="document-icon">PDF</div>
+                        <div class="document-info">
+                            <div class="document-name">CV - Juan Pérez.pdf</div>
+                            <div class="document-meta">2.3 MB • Subido el 10/09/2024 • CV Principal</div>
+                        </div>
+                        <div class="document-actions">
+                            <button class="action-btn" title="Descargar">⬇️</button>
+                            <button class="action-btn" title="Ver">👁️</button>
+                            <button class="action-btn" title="Compartir">🔗</button>
+                        </div>
+                    </div>
+
+                    <div class="document-item">
+                        <div class="document-icon">PDF</div>
+                        <div class="document-info">
+                            <div class="document-name">Certificado React - Coderhouse.pdf</div>
+                            <div class="document-meta">1.8 MB • Subido el 11/09/2024 • Certificación</div>
+                        </div>
+                        <div class="document-actions">
+                            <button class="action-btn" title="Descargar">⬇️</button>
+                            <button class="action-btn" title="Ver">👁️</button>
+                            <button class="action-btn" title="Compartir">🔗</button>
+                        </div>
+                    </div>
+
+                    <div class="document-item">
+                        <div class="document-icon">PDF</div>
+                        <div class="document-info">
+                            <div class="document-name">Portfolio - Proyectos destacados.pdf</div>
+                            <div class="document-meta">5.4 MB • Subido el 11/09/2024 • Portfolio</div>
+                        </div>
+                        <div class="document-actions">
+                            <button class="action-btn" title="Descargar">⬇️</button>
+                            <button class="action-btn" title="Ver">👁️</button>
+                            <button class="action-btn" title="Compartir">🔗</button>
+                        </div>
+                    </div>
+
+                    <div class="document-item">
+                        <div class="document-icon">PDF</div>
+                        <div class="document-info">
+                            <div class="document-name">Informe Prueba Técnica.pdf</div>
+                            <div class="document-meta">892 KB • Generado el 12/09/2024 • Evaluación</div>
+                        </div>
+                        <div class="document-actions">
+                            <button class="action-btn" title="Descargar">⬇️</button>
+                            <button class="action-btn" title="Ver">👁️</button>
+                            <button class="action-btn" title="Compartir">🔗</button>
+                        </div>
+                    </div>
+
+                    <div class="document-item">
+                        <div class="document-icon">PDF</div>
+                        <div class="document-info">
+                            <div class="document-name">Evaluación Psicométrica.pdf</div>
+                            <div class="document-meta">1.2 MB • Generado el 13/09/2024 • Evaluación</div>
+                        </div>
+                        <div class="document-actions">
+                            <button class="action-btn" title="Descargar">⬇️</button>
+                            <button class="action-btn" title="Ver">👁️</button>
+                            <button class="action-btn" title="Compartir">🔗</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </main>
+    </div>
+
+    <script>
+        // Tab functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const tabId = this.dataset.tab;
+
+                // Remove active class from all tabs and panes
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+                // Add active class to clicked tab and corresponding pane
+                this.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Search transcript functionality
+        document.querySelector('.search-transcript')?.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const lines = document.querySelectorAll('.transcript-line');
+
+            lines.forEach(line => {
+                line.classList.remove('highlighted');
+                if (searchTerm && line.textContent.toLowerCase().includes(searchTerm)) {
+                    line.classList.add('highlighted');
+                }
+            });
+        });
+
+        // Document actions
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const action = this.title;
+                console.log('Document action:', action);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARI Reclutamiento - Login</title>
+    <style>
+        :root {
+            --background: oklch(1.0000 0 0);
+            --foreground: oklch(0.1884 0.0128 248.5103);
+            --card: oklch(0.9784 0.0011 197.1387);
+            --card-foreground: oklch(0.1884 0.0128 248.5103);
+            --popover: oklch(1.0000 0 0);
+            --popover-foreground: oklch(0.1884 0.0128 248.5103);
+            --primary: oklch(0.8015 0.1571 90.9558);
+            --primary-foreground: oklch(1.0000 0 0);
+            --secondary: oklch(0.1884 0.0128 248.5103);
+            --secondary-foreground: oklch(1.0000 0 0);
+            --muted: oklch(0.9222 0.0013 286.3737);
+            --muted-foreground: oklch(0.1884 0.0128 248.5103);
+            --accent: oklch(0.9392 0.0166 250.8453);
+            --accent-foreground: oklch(0.6723 0.1606 244.9955);
+            --destructive: oklch(0.6188 0.2376 25.7658);
+            --destructive-foreground: oklch(1.0000 0 0);
+            --border: oklch(0.9317 0.0118 231.6594);
+            --input: oklch(0.9809 0.0025 228.7836);
+            --ring: oklch(0.6818 0.1584 243.3540);
+            --font-sans: 'Open Sans', sans-serif;
+            --radius: 1.3rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--background);
+            color: var(--foreground);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            background: var(--card);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .logo p {
+            color: var(--muted-foreground);
+            margin-top: 0.5rem;
+        }
+
+
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .forgot-password a {
+            color: var(--accent-foreground);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <h1>ARI</h1>
+            <p>Sistema de Reclutamiento</p>
+        </div>
+
+        <div class="dev-notice">
+            <div style="background: var(--accent); color: var(--accent-foreground); padding: 1rem; border-radius: 0.5rem; margin-bottom: 2rem; text-align: center;">
+                <strong>🚧 Entorno de Desarrollo</strong><br>
+                <span style="font-size: 0.9rem;">Este es un mockup de demostración. No requiere credenciales.</span>
+            </div>
+        </div>
+
+        <button onclick="enterSystem()" class="btn">Ingresar al Sistema</button>
+
+        <div class="demo-info" style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--muted-foreground);">
+            Haz clic en "Ingresar al Sistema" para acceder al demo
+        </div>
+    </div>
+
+    <script>
+        function enterSystem() {
+            // Simple mockup - redirect to dashboard
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+</html>

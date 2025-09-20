@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARI Reclutamiento - Dashboard</title>
+    <style>
+        :root {
+            --background: oklch(1.0000 0 0);
+            --foreground: oklch(0.1884 0.0128 248.5103);
+            --card: oklch(0.9784 0.0011 197.1387);
+            --card-foreground: oklch(0.1884 0.0128 248.5103);
+            --primary: oklch(0.8015 0.1571 90.9558);
+            --primary-foreground: oklch(1.0000 0 0);
+            --secondary: oklch(0.1884 0.0128 248.5103);
+            --secondary-foreground: oklch(1.0000 0 0);
+            --muted: oklch(0.9222 0.0013 286.3737);
+            --muted-foreground: oklch(0.1884 0.0128 248.5103);
+            --accent: oklch(0.9392 0.0166 250.8453);
+            --accent-foreground: oklch(0.6723 0.1606 244.9955);
+            --border: oklch(0.9317 0.0118 231.6594);
+            --sidebar: oklch(0.9784 0.0011 197.1387);
+            --sidebar-foreground: oklch(0.1884 0.0128 248.5103);
+            --sidebar-primary: oklch(0.6723 0.1606 244.9955);
+            --sidebar-border: oklch(0.9271 0.0101 238.5177);
+            --font-sans: 'Open Sans', sans-serif;
+            --radius: 1.3rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--background);
+            color: var(--foreground);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .top-header {
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .notification-btn:hover {
+            background: var(--accent);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 8px;
+            height: 8px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .user-profile:hover {
+            background: var(--accent);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--sidebar);
+            border-right: 1px solid var(--sidebar-border);
+            padding: 1rem;
+        }
+
+        .logo {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem;
+            color: var(--sidebar-foreground);
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--accent);
+            color: var(--accent-foreground);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .icon-dashboard {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>') no-repeat center;
+        }
+
+        .icon-users {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/></svg>') no-repeat center;
+        }
+
+        .icon-briefcase {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0H8m8 0v2a2 2 0 01-2 2H10a2 2 0 01-2-2V6m8 0V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2z"/></svg>') no-repeat center;
+        }
+
+        .icon-calendar {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>') no-repeat center;
+        }
+
+        .icon-chart {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>') no-repeat center;
+        }
+
+        .icon-settings {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>') no-repeat center;
+        }
+
+        .icon-bell {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>') no-repeat center;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: var(--foreground);
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-input {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            width: 300px;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--secondary-foreground);
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-card {
+            background: var(--card);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .kpi-title {
+            font-size: 0.9rem;
+            color: var(--muted-foreground);
+            margin-bottom: 0.5rem;
+        }
+
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--foreground);
+        }
+
+        .kpi-trend {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .trend-up {
+            color: #22c55e;
+        }
+
+        .trend-down {
+            color: #ef4444;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .action-card {
+            background: var(--card);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: 1px solid var(--border);
+        }
+
+        .action-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .action-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .recent-activity {
+            background: var(--card);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+        }
+
+        .activity-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-primary {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .badge-secondary {
+            background: var(--muted);
+            color: var(--muted-foreground);
+        }
+
+        .badge-danger {
+            background: var(--destructive);
+            color: var(--destructive-foreground);
+        }
+
+        .alerts {
+            background: var(--card);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border-left: 4px solid var(--destructive);
+        }
+
+        .alert-item {
+            margin-bottom: 1rem;
+        }
+
+        .alert-item:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <button class="notification-btn">
+            <span class="icon icon-bell"></span>
+            <span class="notification-badge"></span>
+        </button>
+        <div class="user-profile">
+            <div class="user-avatar">A</div>
+            <span class="user-name">Admin</span>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>ARI</h1>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="dashboard.html" class="nav-link active"><span class="icon icon-dashboard"></span>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="puestos.html" class="nav-link"><span class="icon icon-briefcase"></span>Puestos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="candidatos.html" class="nav-link"><span class="icon icon-users"></span>Candidatos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="calendario.html" class="nav-link"><span class="icon icon-calendar"></span>Calendario</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="informes.html" class="nav-link"><span class="icon icon-chart"></span>Informes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link"><span class="icon icon-settings"></span>Configuración</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+        <header class="header">
+            <h1>Dashboard</h1>
+            <div class="search-bar">
+                <input type="search" placeholder="Buscar candidatos, puestos..." class="search-input">
+                <a href="puestos.html" class="btn">Crear puesto</a>
+            </div>
+        </header>
+
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-title">Candidatos nuevos hoy</div>
+                <div class="kpi-value">12</div>
+                <div class="kpi-trend trend-up">↗ +3 vs ayer</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Puestos activos</div>
+                <div class="kpi-value">18</div>
+                <div class="kpi-trend trend-up">↗ +2 esta semana</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Entrevistas agendadas</div>
+                <div class="kpi-value">7</div>
+                <div class="kpi-trend">→ Próximas 48h</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Tiempo promedio por etapa</div>
+                <div class="kpi-value">3.2</div>
+                <div class="kpi-trend trend-down">↘ -0.5 días</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">% Candidatos aptos</div>
+                <div class="kpi-value">68%</div>
+                <div class="kpi-trend trend-up">↗ +5% vs mes anterior</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Fuentes principales</div>
+                <div class="kpi-value">LinkedIn</div>
+                <div class="kpi-trend">42% del total</div>
+            </div>
+        </section>
+
+        <section class="quick-actions">
+            <div class="action-card" onclick="window.location.href='puestos.html'">
+                <div class="action-icon"><span class="icon icon-briefcase" style="width: 24px; height: 24px; margin: 0;"></span></div>
+                <h3>Crear puesto</h3>
+                <p>Nueva búsqueda</p>
+            </div>
+            <div class="action-card">
+                <div class="action-icon"><span class="icon icon-chart" style="width: 24px; height: 24px; margin: 0;"></span></div>
+                <h3>Publicar</h3>
+                <p>En bolsas de trabajo</p>
+            </div>
+            <div class="action-card" onclick="window.location.href='candidatos.html'">
+                <div class="action-icon"><span class="icon icon-users" style="width: 24px; height: 24px; margin: 0;"></span></div>
+                <h3>Cargar candidatos</h3>
+                <p>Base de datos</p>
+            </div>
+            <div class="action-card" onclick="window.location.href='informes.html'">
+                <div class="action-icon"><span class="icon icon-chart" style="width: 24px; height: 24px; margin: 0;"></span></div>
+                <h3>Generar informe</h3>
+                <p>Para cliente</p>
+            </div>
+        </section>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+            <section class="recent-activity">
+                <h2 style="margin-bottom: 1rem;">Actividad reciente</h2>
+                <div class="activity-item">
+                    <div>
+                        <strong>Juan Pérez</strong> pasó a entrevista interna
+                        <div style="font-size: 0.8rem; color: var(--muted-foreground);">Desarrollador Sr. - TechCorp</div>
+                    </div>
+                    <span class="badge badge-primary">LinkedIn</span>
+                </div>
+                <div class="activity-item">
+                    <div>
+                        <strong>María González</strong> completó pruebas técnicas
+                        <div style="font-size: 0.8rem; color: var(--muted-foreground);">UX Designer - StartupXYZ</div>
+                    </div>
+                    <span class="badge badge-secondary">Bumeran</span>
+                </div>
+                <div class="activity-item">
+                    <div>
+                        <strong>Carlos Rodríguez</strong> agendó entrevista con cliente
+                        <div style="font-size: 0.8rem; color: var(--muted-foreground);">Product Manager - InnovaCorp</div>
+                    </div>
+                    <span class="badge badge-primary">Referido</span>
+                </div>
+                <div class="activity-item">
+                    <div>
+                        <strong>Ana Martínez</strong> envió feedback del cliente
+                        <div style="font-size: 0.8rem; color: var(--muted-foreground);">Data Analyst - DataCorp</div>
+                    </div>
+                    <span class="badge badge-secondary">Indeed</span>
+                </div>
+            </section>
+
+            <section class="alerts">
+                <h2 style="margin-bottom: 1rem; color: var(--destructive);">Alertas</h2>
+                <div class="alert-item">
+                    <strong>SLA por vencer</strong>
+                    <div style="font-size: 0.9rem; margin-top: 0.25rem;">3 puestos vencen en 2 días</div>
+                </div>
+                <div class="alert-item">
+                    <strong>Candidatos pendientes</strong>
+                    <div style="font-size: 0.9rem; margin-top: 0.25rem;">5 sin movimiento por 48h</div>
+                </div>
+                <div class="alert-item">
+                    <strong>Pruebas vencidas</strong>
+                    <div style="font-size: 0.9rem; margin-top: 0.25rem;">2 candidatos sin completar</div>
+                </div>
+            </section>
+        </div>
+        </main>
+    </div>
+
+    <script>
+        // Simple navigation functionality
+        document.querySelectorAll('.action-card').forEach(card => {
+            if (!card.onclick) {
+                card.addEventListener('click', function() {
+                    console.log('Action clicked:', this.querySelector('h3').textContent);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

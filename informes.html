@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARI Reclutamiento - Informes</title>
+    <style>
+        :root {
+            --background: oklch(1.0000 0 0);
+            --foreground: oklch(0.1884 0.0128 248.5103);
+            --card: oklch(0.9784 0.0011 197.1387);
+            --card-foreground: oklch(0.1884 0.0128 248.5103);
+            --primary: oklch(0.8015 0.1571 90.9558);
+            --primary-foreground: oklch(1.0000 0 0);
+            --secondary: oklch(0.1884 0.0128 248.5103);
+            --secondary-foreground: oklch(1.0000 0 0);
+            --muted: oklch(0.9222 0.0013 286.3737);
+            --muted-foreground: oklch(0.1884 0.0128 248.5103);
+            --accent: oklch(0.9392 0.0166 250.8453);
+            --accent-foreground: oklch(0.6723 0.1606 244.9955);
+            --border: oklch(0.9317 0.0118 231.6594);
+            --destructive: oklch(0.6188 0.2376 25.7658);
+            --destructive-foreground: oklch(1.0000 0 0);
+            --sidebar: oklch(0.9784 0.0011 197.1387);
+            --sidebar-foreground: oklch(0.1884 0.0128 248.5103);
+            --sidebar-border: oklch(0.9271 0.0101 238.5177);
+            --font-sans: 'Open Sans', sans-serif;
+            --radius: 1.3rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--background);
+            color: var(--foreground);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .top-header {
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .notification-btn:hover {
+            background: var(--accent);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 8px;
+            height: 8px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .user-profile:hover {
+            background: var(--accent);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+        }
+
+        .icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .icon-dashboard {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>') no-repeat center;
+        }
+
+        .icon-users {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/></svg>') no-repeat center;
+        }
+
+        .icon-briefcase {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0H8m8 0v2a2 2 0 01-2 2H10a2 2 0 01-2-2V6m8 0V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2z"/></svg>') no-repeat center;
+        }
+
+        .icon-calendar {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>') no-repeat center;
+        }
+
+        .icon-chart {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>') no-repeat center;
+        }
+
+        .icon-settings {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>') no-repeat center;
+        }
+
+        .icon-bell {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>') no-repeat center;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--sidebar);
+            border-right: 1px solid var(--sidebar-border);
+            padding: 1rem;
+        }
+
+        .logo {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem;
+            color: var(--sidebar-foreground);
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--accent);
+            color: var(--accent-foreground);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 2rem 2rem 1rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--background);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1rem;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--secondary-foreground);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--foreground);
+            border: 1px solid var(--border);
+        }
+
+        .tabs {
+            padding: 0 2rem;
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab-list {
+            display: flex;
+            gap: 0;
+            list-style: none;
+        }
+
+        .tab-button {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+        }
+
+        .tab-button.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .tab-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        .shortlist-builder {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+            height: calc(100vh - 250px);
+        }
+
+        .candidates-section {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .candidate-list {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .candidate-card {
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            cursor: grab;
+            transition: all 0.2s;
+        }
+
+        .candidate-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .candidate-card.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        .candidate-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .candidate-info h4 {
+            margin-bottom: 0.25rem;
+        }
+
+        .candidate-title {
+            font-size: 0.9rem;
+            color: var(--muted-foreground);
+        }
+
+        .match-score {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .candidate-details {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--muted-foreground);
+            margin-bottom: 0.75rem;
+        }
+
+        .candidate-skills {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .skill-tag {
+            background: var(--accent);
+            color: var(--accent-foreground);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.7rem;
+        }
+
+        .shortlist-preview {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .shortlist-candidates {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        .shortlist-item {
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .shortlist-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--destructive);
+            color: var(--destructive-foreground);
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .shortlist-order {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .drop-zone {
+            border: 2px dashed var(--border);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+            color: var(--muted-foreground);
+            margin-bottom: 1rem;
+        }
+
+        .drop-zone.drag-over {
+            border-color: var(--primary);
+            background: var(--accent);
+        }
+
+        .template-options {
+            margin-bottom: 1.5rem;
+        }
+
+        .option-group {
+            margin-bottom: 1rem;
+        }
+
+        .option-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .export-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .report-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .report-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .report-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .report-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .report-description {
+            color: var(--muted-foreground);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .report-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--muted-foreground);
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .status-draft {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .status-sent {
+            background: #22c55e;
+            color: white;
+        }
+
+        .status-pending {
+            background: var(--muted);
+            color: var(--muted-foreground);
+        }
+
+        .reports-table {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--muted);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: var(--accent);
+        }
+
+        .action-btn {
+            padding: 0.25rem 0.5rem;
+            margin: 0 0.25rem;
+            border: 1px solid var(--border);
+            background: var(--background);
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .action-btn:hover {
+            background: var(--accent);
+        }
+
+        .filters-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            background: var(--background);
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            min-width: 200px;
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .analytics-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+        }
+
+        .analytics-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .analytics-label {
+            color: var(--muted-foreground);
+            font-size: 0.9rem;
+        }
+
+        .chart-placeholder {
+            background: var(--muted);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted-foreground);
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <button class="notification-btn">
+            <span class="icon icon-bell"></span>
+            <span class="notification-badge"></span>
+        </button>
+        <div class="user-profile">
+            <div class="user-avatar">A</div>
+            <span class="user-name">Admin</span>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>ARI</h1>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="dashboard.html" class="nav-link"><span class="icon icon-dashboard"></span>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="puestos.html" class="nav-link"><span class="icon icon-briefcase"></span>Puestos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="candidatos.html" class="nav-link"><span class="icon icon-users"></span>Candidatos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="calendario.html" class="nav-link"><span class="icon icon-calendar"></span>Calendario</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="informes.html" class="nav-link active"><span class="icon icon-chart"></span>Informes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link"><span class="icon icon-settings"></span>Configuración</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <h1>Informes</h1>
+            <div class="header-actions">
+                <div>
+                    <button class="btn">+ Crear shortlist</button>
+                    <button class="btn btn-secondary"><span class="icon icon-chart"></span>Generar reporte</button>
+                </div>
+                <div>
+                    <button class="btn btn-outline"><span class="icon icon-chart"></span>Exportar datos</button>
+                    <button class="btn btn-outline"><span class="icon icon-settings"></span>Configurar plantillas</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <ul class="tab-list">
+                <li><button class="tab-button active" data-tab="shortlist"><span class="icon icon-briefcase"></span>Constructor Shortlist</button></li>
+                <li><button class="tab-button" data-tab="reports"><span class="icon icon-chart"></span>Informes Enviados</button></li>
+                <li><button class="tab-button" data-tab="analytics"><span class="icon icon-chart"></span>Analíticas</button></li>
+                <li><button class="tab-button" data-tab="templates"><span class="icon icon-settings"></span>Plantillas</button></li>
+            </ul>
+        </div>
+
+        <div class="tab-content">
+            <!-- Shortlist Builder Tab -->
+            <div class="tab-pane active" id="shortlist">
+                <div class="shortlist-builder">
+                    <div class="candidates-section">
+                        <div class="section-header">
+                            <h3 class="section-title">Candidatos disponibles</h3>
+                            <select class="filter-select">
+                                <option value="">Todos los puestos</option>
+                                <option value="fullstack">Desarrollador Full Stack Sr.</option>
+                                <option value="ux">UX/UI Designer</option>
+                                <option value="product">Product Manager</option>
+                            </select>
+                        </div>
+
+                        <div class="candidate-list">
+                            <div class="candidate-card" draggable="true">
+                                <div class="candidate-header">
+                                    <div class="candidate-info">
+                                        <h4>Juan Pérez</h4>
+                                        <div class="candidate-title">Desarrollador Full Stack Sr.</div>
+                                    </div>
+                                    <div class="match-score">95%</div>
+                                </div>
+                                <div class="candidate-details">
+                                    <span>5 años exp.</span>
+                                    <span>CABA</span>
+                                    <span>$180k</span>
+                                    <span>LinkedIn</span>
+                                </div>
+                                <div class="candidate-skills">
+                                    <span class="skill-tag">React</span>
+                                    <span class="skill-tag">Node.js</span>
+                                    <span class="skill-tag">TypeScript</span>
+                                    <span class="skill-tag">AWS</span>
+                                </div>
+                            </div>
+
+                            <div class="candidate-card" draggable="true">
+                                <div class="candidate-header">
+                                    <div class="candidate-info">
+                                        <h4>Carlos Rodríguez</h4>
+                                        <div class="candidate-title">Desarrollador Full Stack Sr.</div>
+                                    </div>
+                                    <div class="match-score">92%</div>
+                                </div>
+                                <div class="candidate-details">
+                                    <span>6 años exp.</span>
+                                    <span>GBA</span>
+                                    <span>$190k</span>
+                                    <span>Referido</span>
+                                </div>
+                                <div class="candidate-skills">
+                                    <span class="skill-tag">React</span>
+                                    <span class="skill-tag">Node.js</span>
+                                    <span class="skill-tag">PostgreSQL</span>
+                                    <span class="skill-tag">Docker</span>
+                                </div>
+                            </div>
+
+                            <div class="candidate-card" draggable="true">
+                                <div class="candidate-header">
+                                    <div class="candidate-info">
+                                        <h4>Ana Martínez</h4>
+                                        <div class="candidate-title">Desarrollador Full Stack Sr.</div>
+                                    </div>
+                                    <div class="match-score">88%</div>
+                                </div>
+                                <div class="candidate-details">
+                                    <span>4 años exp.</span>
+                                    <span>CABA</span>
+                                    <span>$170k</span>
+                                    <span>Indeed</span>
+                                </div>
+                                <div class="candidate-skills">
+                                    <span class="skill-tag">React</span>
+                                    <span class="skill-tag">Node.js</span>
+                                    <span class="skill-tag">Python</span>
+                                </div>
+                            </div>
+
+                            <div class="candidate-card" draggable="true">
+                                <div class="candidate-header">
+                                    <div class="candidate-info">
+                                        <h4>Luis Fernández</h4>
+                                        <div class="candidate-title">Desarrollador Full Stack Sr.</div>
+                                    </div>
+                                    <div class="match-score">85%</div>
+                                </div>
+                                <div class="candidate-details">
+                                    <span>7 años exp.</span>
+                                    <span>Córdoba</span>
+                                    <span>$175k</span>
+                                    <span>Bumeran</span>
+                                </div>
+                                <div class="candidate-skills">
+                                    <span class="skill-tag">React</span>
+                                    <span class="skill-tag">Vue.js</span>
+                                    <span class="skill-tag">PHP</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="shortlist-preview">
+                        <div class="section-header">
+                            <h3 class="section-title">Shortlist - TechCorp</h3>
+                            <span style="color: var(--muted-foreground);">0 candidatos</span>
+                        </div>
+
+                        <div class="drop-zone" id="dropZone">
+                            <span class="icon icon-briefcase"></span>Arrastra candidatos aquí para crear tu shortlist
+                        </div>
+
+                        <div class="shortlist-candidates" id="shortlistCandidates">
+                            <!-- Shortlisted candidates will appear here -->
+                        </div>
+
+                        <div class="template-options">
+                            <div class="option-group">
+                                <label class="option-label">Incluir en el informe:</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" checked>
+                                        Perfil profesional
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" checked>
+                                        Resultados de pruebas
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" checked>
+                                        Resumen de entrevistas
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox">
+                                        Análisis de riesgos
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox">
+                                        Referencias laborales
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="option-group">
+                                <label class="option-label">Plantilla:</label>
+                                <select class="filter-select" style="width: 100%;">
+                                    <option value="standard">Estándar TechCorp</option>
+                                    <option value="executive">Ejecutivo</option>
+                                    <option value="technical">Técnico detallado</option>
+                                    <option value="custom">Personalizada</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="export-actions">
+                            <button class="btn" disabled id="previewBtn"><span class="icon icon-chart"></span>Vista previa</button>
+                            <button class="btn" disabled id="generateBtn"><span class="icon icon-chart"></span>Generar en Google Doc</button>
+                            <button class="btn btn-secondary" disabled id="pdfBtn"><span class="icon icon-chart"></span>Exportar PDF</button>
+                            <button class="btn btn-outline" disabled id="sendBtn"><span class="icon icon-bell"></span>Enviar al cliente</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports History Tab -->
+            <div class="tab-pane" id="reports">
+                <div class="filters-bar">
+                    <input type="search" placeholder="Buscar informes..." class="search-input">
+                    <select class="filter-select">
+                        <option value="">Todos los clientes</option>
+                        <option value="techcorp">TechCorp</option>
+                        <option value="startupxyz">StartupXYZ</option>
+                        <option value="innovacorp">InnovaCorp</option>
+                    </select>
+                    <select class="filter-select">
+                        <option value="">Todos los estados</option>
+                        <option value="draft">Borrador</option>
+                        <option value="sent">Enviado</option>
+                        <option value="pending">Pendiente</option>
+                    </select>
+                    <select class="filter-select">
+                        <option value="">Último mes</option>
+                        <option value="week">Última semana</option>
+                        <option value="month">Último mes</option>
+                        <option value="quarter">Último trimestre</option>
+                    </select>
+                </div>
+
+                <div class="reports-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Informe</th>
+                                <th>Cliente</th>
+                                <th>Puesto</th>
+                                <th>Candidatos</th>
+                                <th>Estado</th>
+                                <th>Fecha</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Shortlist Full Stack Sr.</strong>
+                                    <div style="font-size: 0.8rem; color: var(--muted-foreground);">Informe_TechCorp_FullStack_092024.pdf</div>
+                                </td>
+                                <td>TechCorp</td>
+                                <td>Desarrollador Full Stack Sr.</td>
+                                <td>3 candidatos</td>
+                                <td><span class="status-badge status-sent">Enviado</span></td>
+                                <td>18/09/2024</td>
+                                <td>
+                                    <button class="action-btn">👁️ Ver</button>
+                                    <button class="action-btn"><span class="icon icon-chart"></span>Descargar</button>
+                                    <button class="action-btn"><span class="icon icon-bell"></span>Reenviar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Shortlist UX Designer</strong>
+                                    <div style="font-size: 0.8rem; color: var(--muted-foreground);">Informe_StartupXYZ_UX_092024.pdf</div>
+                                </td>
+                                <td>StartupXYZ</td>
+                                <td>UX/UI Designer</td>
+                                <td>2 candidatos</td>
+                                <td><span class="status-badge status-pending">Pendiente</span></td>
+                                <td>17/09/2024</td>
+                                <td>
+                                    <button class="action-btn"><span class="icon icon-settings"></span>Editar</button>
+                                    <button class="action-btn"><span class="icon icon-bell"></span>Enviar</button>
+                                    <button class="action-btn"><span class="icon icon-settings"></span>Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Shortlist Product Manager</strong>
+                                    <div style="font-size: 0.8rem; color: var(--muted-foreground);">Informe_InnovaCorp_PM_092024.pdf</div>
+                                </td>
+                                <td>InnovaCorp</td>
+                                <td>Product Manager</td>
+                                <td>4 candidatos</td>
+                                <td><span class="status-badge status-draft">Borrador</span></td>
+                                <td>16/09/2024</td>
+                                <td>
+                                    <button class="action-btn"><span class="icon icon-settings"></span>Continuar</button>
+                                    <button class="action-btn"><span class="icon icon-chart"></span>Vista previa</button>
+                                    <button class="action-btn"><span class="icon icon-settings"></span>Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Shortlist Data Analyst</strong>
+                                    <div style="font-size: 0.8rem; color: var(--muted-foreground);">Informe_DataCorp_DA_092024.pdf</div>
+                                </td>
+                                <td>DataCorp</td>
+                                <td>Data Analyst Sr.</td>
+                                <td>3 candidatos</td>
+                                <td><span class="status-badge status-sent">Enviado</span></td>
+                                <td>15/09/2024</td>
+                                <td>
+                                    <button class="action-btn">👁️ Ver</button>
+                                    <button class="action-btn"><span class="icon icon-chart"></span>Descargar</button>
+                                    <button class="action-btn"><span class="icon icon-chart"></span>Métricas</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div class="tab-pane" id="analytics">
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <div class="analytics-value">24</div>
+                        <div class="analytics-label">Informes enviados este mes</div>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="analytics-value">18</div>
+                        <div class="analytics-label">Clientes únicos</div>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="analytics-value">3.2</div>
+                        <div class="analytics-label">Candidatos promedio por informe</div>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="analytics-value">86%</div>
+                        <div class="analytics-label">Tasa de respuesta del cliente</div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                    <div class="analytics-card">
+                        <h3 style="margin-bottom: 1rem;"><span class="icon icon-chart"></span>Informes por mes</h3>
+                        <div class="chart-placeholder">Gráfico de barras - Evolución mensual</div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3 style="margin-bottom: 1rem;"><span class="icon icon-users"></span>Clientes más activos</h3>
+                        <div class="chart-placeholder">Gráfico circular - Distribución por cliente</div>
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <h3 style="margin-bottom: 1rem;"><span class="icon icon-chart"></span>Métricas de rendimiento</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div style="text-align: center; padding: 1rem; background: var(--muted); border-radius: 0.5rem;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">2.4 días</div>
+                            <div style="font-size: 0.9rem; color: var(--muted-foreground);">Tiempo promedio de generación</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: var(--muted); border-radius: 0.5rem;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">92%</div>
+                            <div style="font-size: 0.9rem; color: var(--muted-foreground);">Satisfacción del cliente</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: var(--muted); border-radius: 0.5rem;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">1.8 días</div>
+                            <div style="font-size: 0.9rem; color: var(--muted-foreground);">Tiempo promedio de respuesta</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: var(--muted); border-radius: 0.5rem;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">74%</div>
+                            <div style="font-size: 0.9rem; color: var(--muted-foreground);">Tasa de contratación</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Templates Tab -->
+            <div class="tab-pane" id="templates">
+                <div class="filters-bar">
+                    <h3>Plantillas de informes</h3>
+                    <button class="btn">+ Nueva plantilla</button>
+                </div>
+
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <div class="report-icon"><span class="icon icon-chart"></span></div>
+                        <div class="report-title">Estándar TechCorp</div>
+                        <div class="report-description">
+                            Plantilla estándar con logo del cliente, perfil de candidatos y resumen de evaluaciones.
+                        </div>
+                        <div class="report-meta">
+                            <span>Usado en 15 informes</span>
+                            <span class="status-badge status-sent">Activa</span>
+                        </div>
+                    </div>
+
+                    <div class="report-card">
+                        <div class="report-icon">📋</div>
+                        <div class="report-title">Ejecutivo</div>
+                        <div class="report-description">
+                            Plantilla ejecutiva con resumen ampliado, análisis de fit cultural y recomendaciones estratégicas.
+                        </div>
+                        <div class="report-meta">
+                            <span>Usado en 8 informes</span>
+                            <span class="status-badge status-sent">Activa</span>
+                        </div>
+                    </div>
+
+                    <div class="report-card">
+                        <div class="report-icon">🔧</div>
+                        <div class="report-title">Técnico detallado</div>
+                        <div class="report-description">
+                            Plantilla especializada en roles técnicos con evaluaciones de código, arquitectura y skills técnicos.
+                        </div>
+                        <div class="report-meta">
+                            <span>Usado en 12 informes</span>
+                            <span class="status-badge status-sent">Activa</span>
+                        </div>
+                    </div>
+
+                    <div class="report-card">
+                        <div class="report-icon">⭐</div>
+                        <div class="report-title">Premium StartupXYZ</div>
+                        <div class="report-description">
+                            Plantilla personalizada para StartupXYZ con branding específico y métricas de innovación.
+                        </div>
+                        <div class="report-meta">
+                            <span>Usado en 6 informes</span>
+                            <span class="status-badge status-draft">Borrador</span>
+                        </div>
+                    </div>
+
+                    <div class="report-card">
+                        <div class="report-icon">📊</div>
+                        <div class="report-title">Data & Analytics</div>
+                        <div class="report-description">
+                            Plantilla especializada para roles de datos con evaluaciones técnicas específicas y casos de uso.
+                        </div>
+                        <div class="report-meta">
+                            <span>Usado en 4 informes</span>
+                            <span class="status-badge status-sent">Activa</span>
+                        </div>
+                    </div>
+
+                    <div class="report-card">
+                        <div class="report-icon">🎨</div>
+                        <div class="report-title">Diseño UX/UI</div>
+                        <div class="report-description">
+                            Plantilla para roles de diseño con portfolio review, evaluación de procesos creativos y pensamiento de diseño.
+                        </div>
+                        <div class="report-meta">
+                            <span>Usado en 3 informes</span>
+                            <span class="status-badge status-pending">Pendiente</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Tab functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const tabId = this.dataset.tab;
+
+                // Remove active class from all tabs and panes
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+                // Add active class to clicked tab and corresponding pane
+                this.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Drag and drop functionality for shortlist builder
+        let draggedElement = null;
+        let shortlistCount = 0;
+
+        // Make candidates draggable
+        document.querySelectorAll('.candidate-card').forEach(card => {
+            card.addEventListener('dragstart', function(e) {
+                draggedElement = this;
+                this.classList.add('dragging');
+            });
+
+            card.addEventListener('dragend', function(e) {
+                this.classList.remove('dragging');
+            });
+        });
+
+        // Drop zone functionality
+        const dropZone = document.getElementById('dropZone');
+        const shortlistContainer = document.getElementById('shortlistCandidates');
+
+        dropZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+        });
+
+        dropZone.addEventListener('dragleave', function(e) {
+            this.classList.remove('drag-over');
+        });
+
+        dropZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+
+            if (draggedElement) {
+                addToShortlist(draggedElement);
+                draggedElement = null;
+            }
+        });
+
+        // Shortlist container drop functionality
+        shortlistContainer.addEventListener('dragover', function(e) {
+            e.preventDefault();
+        });
+
+        shortlistContainer.addEventListener('drop', function(e) {
+            e.preventDefault();
+            if (draggedElement) {
+                addToShortlist(draggedElement);
+                draggedElement = null;
+            }
+        });
+
+        function addToShortlist(candidateCard) {
+            if (candidateCard.classList.contains('in-shortlist')) {
+                return; // Already in shortlist
+            }
+
+            shortlistCount++;
+            candidateCard.classList.add('in-shortlist');
+
+            // Create shortlist item
+            const shortlistItem = document.createElement('div');
+            shortlistItem.className = 'shortlist-item';
+            shortlistItem.innerHTML = `
+                <div class="shortlist-order">${shortlistCount}</div>
+                <button class="remove-btn" onclick="removeFromShortlist(this, '${candidateCard.querySelector('h4').textContent}')">&times;</button>
+                ${candidateCard.innerHTML}
+            `;
+
+            shortlistContainer.appendChild(shortlistItem);
+
+            // Hide drop zone if we have candidates
+            if (shortlistCount > 0) {
+                dropZone.style.display = 'none';
+            }
+
+            // Update counter and enable buttons
+            updateShortlistUI();
+        }
+
+        function removeFromShortlist(removeBtn, candidateName) {
+            const shortlistItem = removeBtn.parentElement;
+            shortlistItem.remove();
+            shortlistCount--;
+
+            // Re-enable the original candidate card
+            document.querySelectorAll('.candidate-card').forEach(card => {
+                if (card.querySelector('h4').textContent === candidateName) {
+                    card.classList.remove('in-shortlist');
+                }
+            });
+
+            // Update order numbers
+            document.querySelectorAll('.shortlist-order').forEach((order, index) => {
+                order.textContent = index + 1;
+            });
+
+            // Show drop zone if empty
+            if (shortlistCount === 0) {
+                dropZone.style.display = 'block';
+            }
+
+            updateShortlistUI();
+        }
+
+        function updateShortlistUI() {
+            // Update counter
+            const counter = document.querySelector('.section-header span');
+            counter.textContent = `${shortlistCount} candidatos`;
+
+            // Enable/disable buttons
+            const buttons = ['previewBtn', 'generateBtn', 'pdfBtn', 'sendBtn'];
+            buttons.forEach(btnId => {
+                const btn = document.getElementById(btnId);
+                btn.disabled = shortlistCount === 0;
+            });
+        }
+
+        // Filter functionality
+        document.querySelectorAll('.filter-select').forEach(select => {
+            select.addEventListener('change', function() {
+                console.log('Filter changed:', this.value);
+                // Filter implementation would go here
+            });
+        });
+
+        // Search functionality
+        document.querySelectorAll('.search-input').forEach(input => {
+            input.addEventListener('input', function() {
+                console.log('Search:', this.value);
+                // Search implementation would go here
+            });
+        });
+
+        // Button actions
+        document.getElementById('previewBtn')?.addEventListener('click', function() {
+            if (!this.disabled) {
+                alert('Abriendo vista previa del informe...');
+            }
+        });
+
+        document.getElementById('generateBtn')?.addEventListener('click', function() {
+            if (!this.disabled) {
+                alert('Generando informe en Google Doc...');
+            }
+        });
+
+        document.getElementById('pdfBtn')?.addEventListener('click', function() {
+            if (!this.disabled) {
+                alert('Exportando a PDF...');
+            }
+        });
+
+        document.getElementById('sendBtn')?.addEventListener('click', function() {
+            if (!this.disabled) {
+                alert('Enviando informe al cliente...');
+            }
+        });
+
+        // Report card clicks
+        document.querySelectorAll('.report-card').forEach(card => {
+            card.addEventListener('click', function() {
+                console.log('Report clicked:', this.querySelector('.report-title').textContent);
+            });
+        });
+
+        // Table action buttons
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                console.log('Action:', this.textContent.trim());
+            });
+        });
+    </script>
+</body>
+</html>

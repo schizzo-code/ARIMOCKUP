@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARI Reclutamiento - Calendario</title>
+    <style>
+        :root {
+            --background: oklch(1.0000 0 0);
+            --foreground: oklch(0.1884 0.0128 248.5103);
+            --card: oklch(0.9784 0.0011 197.1387);
+            --card-foreground: oklch(0.1884 0.0128 248.5103);
+            --primary: oklch(0.8015 0.1571 90.9558);
+            --primary-foreground: oklch(1.0000 0 0);
+            --secondary: oklch(0.1884 0.0128 248.5103);
+            --secondary-foreground: oklch(1.0000 0 0);
+            --muted: oklch(0.9222 0.0013 286.3737);
+            --muted-foreground: oklch(0.1884 0.0128 248.5103);
+            --accent: oklch(0.9392 0.0166 250.8453);
+            --accent-foreground: oklch(0.6723 0.1606 244.9955);
+            --border: oklch(0.9317 0.0118 231.6594);
+            --destructive: oklch(0.6188 0.2376 25.7658);
+            --destructive-foreground: oklch(1.0000 0 0);
+            --sidebar: oklch(0.9784 0.0011 197.1387);
+            --sidebar-foreground: oklch(0.1884 0.0128 248.5103);
+            --sidebar-border: oklch(0.9271 0.0101 238.5177);
+            --font-sans: 'Open Sans', sans-serif;
+            --radius: 1.3rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--background);
+            color: var(--foreground);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .top-header {
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .notification-btn:hover {
+            background: var(--accent);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 8px;
+            height: 8px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .user-profile:hover {
+            background: var(--accent);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+        }
+
+        .icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .icon-dashboard {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>') no-repeat center;
+        }
+
+        .icon-users {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/></svg>') no-repeat center;
+        }
+
+        .icon-briefcase {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0H8m8 0v2a2 2 0 01-2 2H10a2 2 0 01-2-2V6m8 0V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2z"/></svg>') no-repeat center;
+        }
+
+        .icon-calendar {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>') no-repeat center;
+        }
+
+        .icon-chart {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>') no-repeat center;
+        }
+
+        .icon-settings {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>') no-repeat center;
+        }
+
+        .icon-bell {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>') no-repeat center;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--sidebar);
+            border-right: 1px solid var(--sidebar-border);
+            padding: 1rem;
+        }
+
+        .logo {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem;
+            color: var(--sidebar-foreground);
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--accent);
+            color: var(--accent-foreground);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 2rem 2rem 1rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--background);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .header-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .view-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .view-selector {
+            display: flex;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .view-btn {
+            padding: 0.5rem 1rem;
+            background: var(--background);
+            border: none;
+            cursor: pointer;
+            border-right: 1px solid var(--border);
+        }
+
+        .view-btn:last-child {
+            border-right: none;
+        }
+
+        .view-btn.active {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .date-navigation {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            padding: 0.5rem;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 0.25rem;
+            cursor: pointer;
+        }
+
+        .current-period {
+            font-size: 1.2rem;
+            font-weight: 600;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.75rem 1rem;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--secondary-foreground);
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .filter-select {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            background: var(--background);
+        }
+
+        .calendar-container {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .calendar-header {
+            background: var(--muted);
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+            color: var(--foreground);
+        }
+
+        .calendar-cell {
+            background: var(--background);
+            min-height: 120px;
+            padding: 0.5rem;
+            position: relative;
+            border: 1px solid transparent;
+        }
+
+        .calendar-cell:hover {
+            background: var(--accent);
+        }
+
+        .calendar-cell.today {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .calendar-cell.other-month {
+            background: var(--muted);
+            color: var(--muted-foreground);
+        }
+
+        .cell-date {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .calendar-event {
+            background: var(--accent-foreground);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.7rem;
+            margin-bottom: 0.25rem;
+            cursor: pointer;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .event-interview {
+            background: #10b981;
+        }
+
+        .event-test {
+            background: #8b5cf6;
+        }
+
+        .event-meeting {
+            background: #f59e0b;
+        }
+
+        .event-deadline {
+            background: #ef4444;
+        }
+
+        .weekly-view {
+            display: none;
+        }
+
+        .weekly-view.active {
+            display: block;
+        }
+
+        .week-header {
+            display: grid;
+            grid-template-columns: 80px repeat(7, 1fr);
+            gap: 1px;
+            background: var(--border);
+            margin-bottom: 1px;
+        }
+
+        .time-column {
+            background: var(--muted);
+            padding: 0.5rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .day-header {
+            background: var(--muted);
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .week-grid {
+            display: grid;
+            grid-template-columns: 80px repeat(7, 1fr);
+            gap: 1px;
+            background: var(--border);
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .time-slot {
+            background: var(--muted);
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.8rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .day-slot {
+            background: var(--background);
+            padding: 0.25rem;
+            min-height: 40px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .day-slot:hover {
+            background: var(--accent);
+        }
+
+        .slot-event {
+            background: var(--accent-foreground);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.7rem;
+            position: absolute;
+            left: 2px;
+            right: 2px;
+            cursor: pointer;
+        }
+
+        .agenda-view {
+            display: none;
+        }
+
+        .agenda-view.active {
+            display: block;
+        }
+
+        .agenda-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .agenda-day {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+        }
+
+        .agenda-date {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .agenda-events {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .agenda-event {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .agenda-event:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-time {
+            font-weight: 600;
+            color: var(--primary);
+            min-width: 60px;
+        }
+
+        .event-type-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .event-details {
+            flex: 1;
+        }
+
+        .event-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .event-description {
+            font-size: 0.9rem;
+            color: var(--muted-foreground);
+        }
+
+        .event-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.25rem 0.5rem;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .action-btn:hover {
+            background: var(--accent);
+        }
+
+        .no-events {
+            text-align: center;
+            color: var(--muted-foreground);
+            font-style: italic;
+            padding: 2rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--background);
+            padding: 2rem;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--muted-foreground);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            background: var(--background);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--foreground);
+            border: 1px solid var(--border);
+        }
+
+        .sidebar-mini {
+            width: 300px;
+            background: var(--card);
+            border-left: 1px solid var(--border);
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .upcoming-events {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--foreground);
+        }
+
+        .upcoming-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .upcoming-event {
+            padding: 1rem;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+
+        .upcoming-event:hover {
+            background: var(--accent);
+        }
+
+        .upcoming-time {
+            font-size: 0.8rem;
+            color: var(--muted-foreground);
+            margin-bottom: 0.25rem;
+        }
+
+        .upcoming-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .upcoming-participant {
+            font-size: 0.8rem;
+            color: var(--muted-foreground);
+        }
+
+        .quick-actions {
+            margin-bottom: 2rem;
+        }
+
+        .quick-action {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            text-decoration: none;
+            color: var(--foreground);
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .quick-action:hover {
+            background: var(--accent);
+        }
+
+        .team-calendar {
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .member-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .member-status {
+            margin-left: auto;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-available {
+            background: #22c55e;
+        }
+
+        .status-busy {
+            background: #ef4444;
+        }
+
+        .status-away {
+            background: #f59e0b;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <button class="notification-btn">
+            <span class="icon icon-bell"></span>
+            <span class="notification-badge"></span>
+        </button>
+        <div class="user-profile">
+            <div class="user-avatar">A</div>
+            <span class="user-name">Admin</span>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>ARI</h1>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="dashboard.html" class="nav-link"><span class="icon icon-dashboard"></span>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="puestos.html" class="nav-link"><span class="icon icon-briefcase"></span>Puestos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="candidatos.html" class="nav-link"><span class="icon icon-users"></span>Candidatos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="calendario.html" class="nav-link active"><span class="icon icon-calendar"></span>Calendario</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="informes.html" class="nav-link"><span class="icon icon-chart"></span>Informes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link"><span class="icon icon-settings"></span>Configuración</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+        <header class="header">
+            <h1>Calendario</h1>
+
+            <div class="header-controls">
+                <div class="view-controls">
+                    <div class="view-selector">
+                        <button class="view-btn active" data-view="month">Mes</button>
+                        <button class="view-btn" data-view="week">Semana</button>
+                        <button class="view-btn" data-view="agenda">Agenda</button>
+                    </div>
+
+                    <div class="date-navigation">
+                        <button class="nav-btn">‹</button>
+                        <div class="current-period">Septiembre 2024</div>
+                        <button class="nav-btn">›</button>
+                        <button class="nav-btn">Hoy</button>
+                    </div>
+                </div>
+
+                <div class="header-actions">
+                    <button class="btn" onclick="openModal()">+ Agendar entrevista</button>
+                    <button class="btn btn-secondary">📤 Exportar</button>
+                </div>
+            </div>
+
+            <div class="filters">
+                <select class="filter-select">
+                    <option value="">Todos los equipos</option>
+                    <option value="juan">Juan Martínez</option>
+                    <option value="maria">María López</option>
+                    <option value="carlos">Carlos García</option>
+                </select>
+                <select class="filter-select">
+                    <option value="">Todos los tipos</option>
+                    <option value="interview">Entrevistas</option>
+                    <option value="test">Pruebas</option>
+                    <option value="meeting">Reuniones</option>
+                    <option value="deadline">Deadlines</option>
+                </select>
+                <select class="filter-select">
+                    <option value="">Todos los clientes</option>
+                    <option value="techcorp">TechCorp</option>
+                    <option value="startupxyz">StartupXYZ</option>
+                    <option value="innovacorp">InnovaCorp</option>
+                </select>
+            </div>
+        </header>
+
+        <div style="display: flex; flex: 1; overflow: hidden;">
+            <div class="calendar-container">
+                <!-- Month View -->
+                <div id="monthView" class="calendar-view active">
+                    <div class="calendar-grid">
+                        <div class="calendar-header">Dom</div>
+                        <div class="calendar-header">Lun</div>
+                        <div class="calendar-header">Mar</div>
+                        <div class="calendar-header">Mié</div>
+                        <div class="calendar-header">Jue</div>
+                        <div class="calendar-header">Vie</div>
+                        <div class="calendar-header">Sáb</div>
+
+                        <!-- Week 1 -->
+                        <div class="calendar-cell other-month">
+                            <div class="cell-date">25</div>
+                        </div>
+                        <div class="calendar-cell other-month">
+                            <div class="cell-date">26</div>
+                        </div>
+                        <div class="calendar-cell other-month">
+                            <div class="cell-date">27</div>
+                        </div>
+                        <div class="calendar-cell other-month">
+                            <div class="cell-date">28</div>
+                        </div>
+                        <div class="calendar-cell other-month">
+                            <div class="cell-date">29</div>
+                        </div>
+                        <div class="calendar-cell other-month">
+                            <div class="cell-date">30</div>
+                        </div>
+                        <div class="calendar-cell other-month">
+                            <div class="cell-date">31</div>
+                        </div>
+
+                        <!-- Week 2 -->
+                        <div class="calendar-cell">
+                            <div class="cell-date">1</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">2</div>
+                            <div class="calendar-event event-interview">Entrevista Juan P.</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">3</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">4</div>
+                            <div class="calendar-event event-test">Prueba técnica</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">5</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">6</div>
+                            <div class="calendar-event event-meeting">Review semanal</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">7</div>
+                        </div>
+
+                        <!-- Week 3 -->
+                        <div class="calendar-cell">
+                            <div class="cell-date">8</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">9</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">10</div>
+                            <div class="calendar-event event-deadline">SLA TechCorp</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">11</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">12</div>
+                            <div class="calendar-event event-interview">Entrevista Ana M.</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">13</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">14</div>
+                        </div>
+
+                        <!-- Week 4 -->
+                        <div class="calendar-cell">
+                            <div class="cell-date">15</div>
+                            <div class="calendar-event event-interview">Entrevista Juan P.</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">16</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">17</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">18</div>
+                        </div>
+                        <div class="calendar-cell today">
+                            <div class="cell-date">19</div>
+                            <div class="calendar-event event-interview">Entrevista María G.</div>
+                            <div class="calendar-event event-meeting">Standup equipo</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">20</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">21</div>
+                            <div class="calendar-event event-interview">Cliente TechCorp</div>
+                        </div>
+
+                        <!-- Week 5 -->
+                        <div class="calendar-cell">
+                            <div class="cell-date">22</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">23</div>
+                            <div class="calendar-event event-test">Prueba psicométrica</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">24</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">25</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">26</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">27</div>
+                            <div class="calendar-event event-meeting">Review mensual</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">28</div>
+                        </div>
+
+                        <!-- Week 6 -->
+                        <div class="calendar-cell">
+                            <div class="cell-date">29</div>
+                        </div>
+                        <div class="calendar-cell">
+                            <div class="cell-date">30</div>
+                            <div class="calendar-event event-deadline">Informe cliente</div>
+                        </div>
+                        <div class="calendar-cell other-month">
+                            <div class="cell-date">1</div>
+                        </div>
+                        <div class="calendar-cell other-month">
+                            <div class="cell-date">2</div>
+                        </div>
+                        <div class="calendar-cell other-month">
+                            <div class="cell-date">3</div>
+                        </div>
+                        <div class="calendar-cell other-month">
+                            <div class="cell-date">4</div>
+                        </div>
+                        <div class="calendar-cell other-month">
+                            <div class="cell-date">5</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week View -->
+                <div id="weekView" class="weekly-view">
+                    <div class="week-header">
+                        <div class="time-column"></div>
+                        <div class="day-header">Dom 15</div>
+                        <div class="day-header">Lun 16</div>
+                        <div class="day-header">Mar 17</div>
+                        <div class="day-header">Mié 18</div>
+                        <div class="day-header">Jue 19</div>
+                        <div class="day-header">Vie 20</div>
+                        <div class="day-header">Sáb 21</div>
+                    </div>
+
+                    <div class="week-grid">
+                        <div class="time-slot">09:00</div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot">
+                            <div class="slot-event event-meeting">Standup equipo</div>
+                        </div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+
+                        <div class="time-slot">10:00</div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+
+                        <div class="time-slot">11:00</div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+
+                        <div class="time-slot">12:00</div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+
+                        <div class="time-slot">13:00</div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+
+                        <div class="time-slot">14:00</div>
+                        <div class="day-slot">
+                            <div class="slot-event event-interview">Entrevista Juan P.</div>
+                        </div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+
+                        <div class="time-slot">15:00</div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot">
+                            <div class="slot-event event-interview">Entrevista María G.</div>
+                        </div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot">
+                            <div class="slot-event event-interview">Cliente TechCorp</div>
+                        </div>
+
+                        <div class="time-slot">16:00</div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+
+                        <div class="time-slot">17:00</div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                        <div class="day-slot"></div>
+                    </div>
+                </div>
+
+                <!-- Agenda View -->
+                <div id="agendaView" class="agenda-view">
+                    <div class="agenda-list">
+                        <div class="agenda-day">
+                            <div class="agenda-date">Hoy - Jueves 19 de Septiembre</div>
+                            <div class="agenda-events">
+                                <div class="agenda-event">
+                                    <div class="event-time">09:00</div>
+                                    <div class="event-type-badge event-meeting">Reunión</div>
+                                    <div class="event-details">
+                                        <div class="event-title">Standup equipo</div>
+                                        <div class="event-description">Revisión diaria del equipo - Sala de reuniones</div>
+                                    </div>
+                                    <div class="event-actions">
+                                        <button class="action-btn">✏️</button>
+                                        <button class="action-btn">🔗</button>
+                                    </div>
+                                </div>
+
+                                <div class="agenda-event">
+                                    <div class="event-time">15:00</div>
+                                    <div class="event-type-badge event-interview">Entrevista</div>
+                                    <div class="event-details">
+                                        <div class="event-title">Entrevista - María González</div>
+                                        <div class="event-description">UX Designer - StartupXYZ | Zoom</div>
+                                    </div>
+                                    <div class="event-actions">
+                                        <button class="action-btn">📝</button>
+                                        <button class="action-btn">🎥</button>
+                                        <button class="action-btn">✏️</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="agenda-day">
+                            <div class="agenda-date">Mañana - Viernes 20 de Septiembre</div>
+                            <div class="no-events">No hay eventos programados</div>
+                        </div>
+
+                        <div class="agenda-day">
+                            <div class="agenda-date">Sábado 21 de Septiembre</div>
+                            <div class="agenda-events">
+                                <div class="agenda-event">
+                                    <div class="event-time">15:00</div>
+                                    <div class="event-type-badge event-interview">Entrevista</div>
+                                    <div class="event-details">
+                                        <div class="event-title">Entrevista Cliente - Juan Pérez</div>
+                                        <div class="event-description">Full Stack Sr. - TechCorp | Presencial</div>
+                                    </div>
+                                    <div class="event-actions">
+                                        <button class="action-btn">📝</button>
+                                        <button class="action-btn">📅</button>
+                                        <button class="action-btn">✏️</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="agenda-day">
+                            <div class="agenda-date">Lunes 23 de Septiembre</div>
+                            <div class="agenda-events">
+                                <div class="agenda-event">
+                                    <div class="event-time">10:00</div>
+                                    <div class="event-type-badge event-test">Prueba</div>
+                                    <div class="event-details">
+                                        <div class="event-title">Evaluación Psicométrica</div>
+                                        <div class="event-description">Carlos Rodríguez - Product Manager</div>
+                                    </div>
+                                    <div class="event-actions">
+                                        <button class="action-btn">📊</button>
+                                        <button class="action-btn">✏️</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="sidebar-mini">
+                <div class="upcoming-events">
+                    <h3 class="sidebar-title">Próximos eventos</h3>
+                    <div class="upcoming-list">
+                        <div class="upcoming-event">
+                            <div class="upcoming-time">Hoy - 15:00</div>
+                            <div class="upcoming-title">Entrevista María González</div>
+                            <div class="upcoming-participant">UX Designer - Zoom</div>
+                        </div>
+                        <div class="upcoming-event">
+                            <div class="upcoming-time">21 Sep - 15:00</div>
+                            <div class="upcoming-title">Cliente TechCorp</div>
+                            <div class="upcoming-participant">Juan Pérez - Presencial</div>
+                        </div>
+                        <div class="upcoming-event">
+                            <div class="upcoming-time">23 Sep - 10:00</div>
+                            <div class="upcoming-title">Evaluación psicométrica</div>
+                            <div class="upcoming-participant">Carlos Rodríguez</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <h3 class="sidebar-title">Acciones rápidas</h3>
+                    <button class="quick-action" onclick="openModal()">+ Agendar entrevista</button>
+                    <button class="quick-action">📅 Crear slot disponible</button>
+                    <button class="quick-action">🔗 Enviar link Calendly</button>
+                    <button class="quick-action">📧 Enviar recordatorio</button>
+                </div>
+
+                <div class="team-calendar">
+                    <h3 class="sidebar-title">Estado del equipo</h3>
+                    <div class="team-member">
+                        <div class="member-avatar">JM</div>
+                        <span>Juan Martínez</span>
+                        <div class="member-status status-busy"></div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar">ML</div>
+                        <span>María López</span>
+                        <div class="member-status status-available"></div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar">CG</div>
+                        <span>Carlos García</span>
+                        <div class="member-status status-away"></div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+        </main>
+    </div>
+
+    <!-- Modal for scheduling -->
+    <div id="scheduleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Agendar entrevista</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+
+            <form id="scheduleForm">
+                <div class="form-group">
+                    <label class="form-label">Tipo de evento</label>
+                    <select class="form-select" required>
+                        <option value="">Seleccionar tipo</option>
+                        <option value="interview-internal">Entrevista interna</option>
+                        <option value="interview-client">Entrevista con cliente</option>
+                        <option value="test">Prueba técnica</option>
+                        <option value="meeting">Reunión</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Candidato</label>
+                    <select class="form-select" required>
+                        <option value="">Seleccionar candidato</option>
+                        <option value="juan">Juan Pérez</option>
+                        <option value="maria">María González</option>
+                        <option value="carlos">Carlos Rodríguez</option>
+                        <option value="ana">Ana Martínez</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Puesto</label>
+                    <select class="form-select" required>
+                        <option value="">Seleccionar puesto</option>
+                        <option value="fullstack">Desarrollador Full Stack Sr.</option>
+                        <option value="ux">UX/UI Designer</option>
+                        <option value="product">Product Manager</option>
+                        <option value="data">Data Analyst Sr.</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Fecha</label>
+                        <input type="date" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Hora</label>
+                        <input type="time" class="form-input" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Duración (minutos)</label>
+                        <select class="form-select" required>
+                            <option value="30">30 minutos</option>
+                            <option value="45" selected>45 minutos</option>
+                            <option value="60">1 hora</option>
+                            <option value="90">1.5 horas</option>
+                            <option value="120">2 horas</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Modalidad</label>
+                        <select class="form-select" required>
+                            <option value="zoom">Zoom</option>
+                            <option value="teams">Microsoft Teams</option>
+                            <option value="presencial">Presencial</option>
+                            <option value="telefono">Teléfono</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Entrevistador/Responsable</label>
+                    <select class="form-select" required>
+                        <option value="">Seleccionar entrevistador</option>
+                        <option value="juan-martinez">Juan Martínez</option>
+                        <option value="maria-lopez">María López</option>
+                        <option value="carlos-garcia">Carlos García</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Notas adicionales</label>
+                    <textarea class="form-textarea" placeholder="Información adicional sobre la entrevista..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" checked>
+                        Enviar invitación por email al candidato
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" checked>
+                        Crear recordatorio 24h antes
+                    </label>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn">Agendar entrevista</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // View switching functionality
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const view = this.dataset.view;
+
+                // Update button states
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                // Hide all views
+                document.querySelectorAll('.calendar-view, .weekly-view, .agenda-view').forEach(v => v.classList.remove('active'));
+
+                // Show selected view
+                if (view === 'month') {
+                    document.getElementById('monthView').classList.add('active');
+                } else if (view === 'week') {
+                    document.getElementById('weekView').classList.add('active');
+                } else if (view === 'agenda') {
+                    document.getElementById('agendaView').classList.add('active');
+                }
+            });
+        });
+
+        // Modal functionality
+        function openModal() {
+            document.getElementById('scheduleModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('scheduleModal').classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('scheduleModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Form submission
+        document.getElementById('scheduleForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Entrevista agendada exitosamente!');
+            closeModal();
+        });
+
+        // Event click handlers
+        document.querySelectorAll('.calendar-event, .slot-event, .agenda-event, .upcoming-event').forEach(event => {
+            event.addEventListener('click', function(e) {
+                e.stopPropagation();
+                console.log('Event clicked:', this.textContent.trim());
+                // Here you could open a detailed view or edit modal
+            });
+        });
+
+        // Navigation buttons
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                console.log('Navigation:', this.textContent);
+                // Navigation logic would go here
+            });
+        });
+
+        // Filter functionality
+        document.querySelectorAll('.filter-select').forEach(select => {
+            select.addEventListener('change', function() {
+                console.log('Filter changed:', this.value);
+                // Filter implementation would go here
+            });
+        });
+
+        // Quick actions
+        document.querySelectorAll('.quick-action').forEach(action => {
+            if (!action.onclick) {
+                action.addEventListener('click', function() {
+                    console.log('Quick action:', this.textContent.trim());
+                });
+            }
+        });
+    </script>
+</body>
+</html>

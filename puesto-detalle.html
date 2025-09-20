@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARI Reclutamiento - Desarrollador Full Stack Sr.</title>
+    <style>
+        :root {
+            --background: oklch(1.0000 0 0);
+            --foreground: oklch(0.1884 0.0128 248.5103);
+            --card: oklch(0.9784 0.0011 197.1387);
+            --card-foreground: oklch(0.1884 0.0128 248.5103);
+            --primary: oklch(0.8015 0.1571 90.9558);
+            --primary-foreground: oklch(1.0000 0 0);
+            --secondary: oklch(0.1884 0.0128 248.5103);
+            --secondary-foreground: oklch(1.0000 0 0);
+            --muted: oklch(0.9222 0.0013 286.3737);
+            --muted-foreground: oklch(0.1884 0.0128 248.5103);
+            --accent: oklch(0.9392 0.0166 250.8453);
+            --accent-foreground: oklch(0.6723 0.1606 244.9955);
+            --border: oklch(0.9317 0.0118 231.6594);
+            --destructive: oklch(0.6188 0.2376 25.7658);
+            --destructive-foreground: oklch(1.0000 0 0);
+            --sidebar: oklch(0.9784 0.0011 197.1387);
+            --sidebar-foreground: oklch(0.1884 0.0128 248.5103);
+            --sidebar-border: oklch(0.9271 0.0101 238.5177);
+            --font-sans: 'Open Sans', sans-serif;
+            --radius: 1.3rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--background);
+            color: var(--foreground);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .top-header {
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .notification-btn:hover {
+            background: var(--accent);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 8px;
+            height: 8px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .user-profile:hover {
+            background: var(--accent);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+        }
+
+        .icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .icon-dashboard {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>') no-repeat center;
+        }
+
+        .icon-users {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/></svg>') no-repeat center;
+        }
+
+        .icon-briefcase {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0H8m8 0v2a2 2 0 01-2 2H10a2 2 0 01-2-2V6m8 0V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2z"/></svg>') no-repeat center;
+        }
+
+        .icon-calendar {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>') no-repeat center;
+        }
+
+        .icon-chart {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>') no-repeat center;
+        }
+
+        .icon-settings {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>') no-repeat center;
+        }
+
+        .icon-bell {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>') no-repeat center;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--sidebar);
+            border-right: 1px solid var(--sidebar-border);
+            padding: 1rem;
+        }
+
+        .logo {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem;
+            color: var(--sidebar-foreground);
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--accent);
+            color: var(--accent-foreground);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 2rem 2rem 1rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--background);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            color: var(--muted-foreground);
+        }
+
+        .breadcrumb a {
+            color: var(--accent-foreground);
+            text-decoration: none;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .job-info h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .job-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--muted-foreground);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--secondary-foreground);
+        }
+
+        .tabs {
+            padding: 0 2rem;
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab-list {
+            display: flex;
+            gap: 0;
+            list-style: none;
+        }
+
+        .tab-button {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+        }
+
+        .tab-button.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .pipeline-container {
+            flex: 1;
+            padding: 2rem;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+        .pipeline {
+            display: flex;
+            gap: 1.5rem;
+            min-width: 1400px;
+            height: calc(100vh - 250px);
+        }
+
+        .pipeline-stage {
+            flex: 1;
+            min-width: 300px;
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stage-title {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stage-count {
+            background: var(--muted);
+            color: var(--muted-foreground);
+            padding: 0.25rem 0.5rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+        }
+
+        .stage-cards {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .candidate-card {
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .candidate-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .candidate-header {
+            display: flex;
+            justify-content: between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .candidate-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 0.75rem;
+        }
+
+        .candidate-info {
+            flex: 1;
+        }
+
+        .candidate-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .candidate-title {
+            font-size: 0.8rem;
+            color: var(--muted-foreground);
+        }
+
+        .match-score {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .candidate-details {
+            margin-bottom: 0.75rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .criteria-chips {
+            display: flex;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.75rem;
+        }
+
+        .chip {
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .chip-critical {
+            background: #22c55e;
+            color: white;
+        }
+
+        .chip-desirable {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .chip-missing {
+            background: #ef4444;
+            color: white;
+        }
+
+        .source-badge {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            background: var(--accent);
+            color: var(--accent-foreground);
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+
+        .action-btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.7rem;
+            border: 1px solid var(--border);
+            background: var(--background);
+            color: var(--foreground);
+            border-radius: 0.25rem;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            background: var(--accent);
+        }
+
+        .empty-stage {
+            text-align: center;
+            color: var(--muted-foreground);
+            font-style: italic;
+            padding: 2rem;
+        }
+
+        .stage-postulados { border-top: 3px solid #3b82f6; }
+        .stage-filtro { border-top: 3px solid #f59e0b; }
+        .stage-pruebas { border-top: 3px solid #8b5cf6; }
+        .stage-entrevista-interna { border-top: 3px solid #06b6d4; }
+        .stage-entrevista-cliente { border-top: 3px solid #10b981; }
+        .stage-shortlist { border-top: 3px solid #f97316; }
+        .stage-cierre { border-top: 3px solid #6b7280; }
+
+        .add-candidate-btn {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px dashed var(--border);
+            background: none;
+            color: var(--muted-foreground);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .add-candidate-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .candidates-list-view {
+            display: none;
+            padding: 2rem;
+            background: var(--background);
+        }
+
+        .candidates-list-view.active {
+            display: block;
+        }
+
+        .candidates-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .candidates-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--card);
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border);
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--muted-foreground);
+        }
+
+        .candidates-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-select, .search-input {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            background: var(--background);
+            color: var(--foreground);
+        }
+
+        .search-input {
+            min-width: 250px;
+        }
+
+        .view-toggle {
+            display: flex;
+            background: var(--muted);
+            border-radius: 0.375rem;
+            padding: 0.125rem;
+        }
+
+        .view-btn {
+            padding: 0.5rem 1rem;
+            background: none;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: var(--muted-foreground);
+        }
+
+        .view-btn.active {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .candidates-table {
+            background: var(--card);
+            border-radius: 0.5rem;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: var(--muted);
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+            gap: 1rem;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--muted-foreground);
+        }
+
+        .table-row {
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+            gap: 1rem;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+
+        .table-row:hover {
+            background: var(--accent);
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .candidate-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .candidate-cell .candidate-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .candidate-info-cell {
+            flex: 1;
+        }
+
+        .candidate-name-cell {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .candidate-details-cell {
+            font-size: 0.8rem;
+            color: var(--muted-foreground);
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 0.125rem;
+        }
+
+        .star {
+            width: 14px;
+            height: 14px;
+            fill: #d1d5db;
+        }
+
+        .star.filled {
+            fill: #fbbf24;
+        }
+
+        .stage-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .stage-postulados-badge { background: #dbeafe; color: #1e40af; }
+        .stage-filtro-badge { background: #fef3c7; color: #92400e; }
+        .stage-pruebas-badge { background: #ede9fe; color: #6b21a8; }
+        .stage-entrevista-interna-badge { background: #cffafe; color: #0e7490; }
+        .stage-entrevista-cliente-badge { background: #d1fae5; color: #047857; }
+
+        .actions-cell {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn-small {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.7rem;
+            border: 1px solid var(--border);
+            background: var(--background);
+            color: var(--foreground);
+            border-radius: 0.25rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .action-btn-small:hover {
+            background: var(--accent);
+        }
+
+        .primary-action {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border-color: var(--primary);
+        }
+
+        .secondary-action {
+            background: var(--secondary);
+            color: var(--secondary-foreground);
+            border-color: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <button class="notification-btn">
+            <span class="icon icon-bell"></span>
+            <span class="notification-badge"></span>
+        </button>
+        <div class="user-profile">
+            <div class="user-avatar">A</div>
+            <span class="user-name">Admin</span>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>ARI</h1>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="dashboard.html" class="nav-link"><span class="icon icon-dashboard"></span>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="puestos.html" class="nav-link active"><span class="icon icon-briefcase"></span>Puestos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="candidatos.html" class="nav-link"><span class="icon icon-users"></span>Candidatos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="calendario.html" class="nav-link"><span class="icon icon-calendar"></span>Calendario</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="informes.html" class="nav-link"><span class="icon icon-chart"></span>Informes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link"><span class="icon icon-settings"></span>Configuración</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+        <header class="header">
+            <div class="breadcrumb">
+                <a href="puestos.html">Puestos</a> / Desarrollador Full Stack Sr.
+            </div>
+            <div class="job-header">
+                <div class="job-info">
+                    <h1>Desarrollador Full Stack Sr.</h1>
+                    <div class="job-meta">
+                        <span>TechCorp</span>
+                        <span>•</span>
+                        <span>Juan Martínez</span>
+                        <span>•</span>
+                        <span>Apertura: 10/09/2024</span>
+                        <span>•</span>
+                        <span style="color: var(--destructive);">SLA: 5 días</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary">Publicar</button>
+                    <button class="btn">+ Agregar candidato</button>
+                    <button class="btn">Generar informe</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <ul class="tab-list">
+                <li><button class="tab-button active">Pipeline</button></li>
+                <li><button class="tab-button">Candidatos</button></li>
+                <li><button class="tab-button">Publicaciones</button></li>
+                <li><button class="tab-button">Pruebas</button></li>
+                <li><button class="tab-button">Entrevistas</button></li>
+                <li><button class="tab-button">Informes</button></li>
+                <li><button class="tab-button">Actividad</button></li>
+            </ul>
+        </div>
+
+        <div class="pipeline-container">
+            <div class="pipeline">
+                <!-- Postulados -->
+                <div class="pipeline-stage stage-postulados">
+                    <div class="stage-header">
+                        <div class="stage-title">
+                            Postulados
+                            <span class="stage-count">12</span>
+                        </div>
+                    </div>
+                    <div class="stage-cards">
+                        <div class="candidate-card" onclick="window.location.href='candidato-perfil.html'">
+                            <div class="candidate-header">
+                                <div class="candidate-avatar">JP</div>
+                                <div class="candidate-info">
+                                    <div class="candidate-name">Juan Pérez</div>
+                                    <div class="candidate-title">5 años exp. • React</div>
+                                </div>
+                                <div class="match-score">85%</div>
+                            </div>
+                            <div class="candidate-details">
+                                <div class="detail-row">
+                                    <span>Fuente:</span>
+                                    <span class="source-badge">LinkedIn</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Llegada:</span>
+                                    <span>Hace 2h</span>
+                                </div>
+                            </div>
+                            <div class="criteria-chips">
+                                <span class="chip chip-critical">React</span>
+                                <span class="chip chip-critical">Node.js</span>
+                                <span class="chip chip-desirable">AWS</span>
+                                <span class="chip chip-missing">Docker</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="action-btn">📋 Ver perfil</button>
+                                <button class="action-btn">✉️ Contactar</button>
+                                <button class="action-btn">➡️ Mover</button>
+                            </div>
+                        </div>
+
+                        <div class="candidate-card">
+                            <div class="candidate-header">
+                                <div class="candidate-avatar">MG</div>
+                                <div class="candidate-info">
+                                    <div class="candidate-name">María González</div>
+                                    <div class="candidate-title">3 años exp. • Frontend</div>
+                                </div>
+                                <div class="match-score">72%</div>
+                            </div>
+                            <div class="candidate-details">
+                                <div class="detail-row">
+                                    <span>Fuente:</span>
+                                    <span class="source-badge">Bumeran</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Llegada:</span>
+                                    <span>Hace 4h</span>
+                                </div>
+                            </div>
+                            <div class="criteria-chips">
+                                <span class="chip chip-critical">React</span>
+                                <span class="chip chip-missing">Node.js</span>
+                                <span class="chip chip-desirable">TypeScript</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="action-btn">📋 Ver perfil</button>
+                                <button class="action-btn">✉️ Contactar</button>
+                                <button class="action-btn">➡️ Mover</button>
+                            </div>
+                        </div>
+
+                        <button class="add-candidate-btn">
+                            + Agregar candidato
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filtro estructurado -->
+                <div class="pipeline-stage stage-filtro">
+                    <div class="stage-header">
+                        <div class="stage-title">
+                            Filtro estructurado
+                            <span class="stage-count">8</span>
+                        </div>
+                    </div>
+                    <div class="stage-cards">
+                        <div class="candidate-card">
+                            <div class="candidate-header">
+                                <div class="candidate-avatar">CR</div>
+                                <div class="candidate-info">
+                                    <div class="candidate-name">Carlos Rodríguez</div>
+                                    <div class="candidate-title">6 años exp. • Full Stack</div>
+                                </div>
+                                <div class="match-score">92%</div>
+                            </div>
+                            <div class="candidate-details">
+                                <div class="detail-row">
+                                    <span>Estado:</span>
+                                    <span style="color: #22c55e;">✓ Formulario completado</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Criterios críticos:</span>
+                                    <span style="color: #22c55e;">5/5 ✓</span>
+                                </div>
+                            </div>
+                            <div class="criteria-chips">
+                                <span class="chip chip-critical">React</span>
+                                <span class="chip chip-critical">Node.js</span>
+                                <span class="chip chip-critical">PostgreSQL</span>
+                                <span class="chip chip-desirable">Docker</span>
+                                <span class="chip chip-desirable">AWS</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="action-btn">📋 Ver formulario</button>
+                                <button class="action-btn">➡️ A pruebas</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pruebas -->
+                <div class="pipeline-stage stage-pruebas">
+                    <div class="stage-header">
+                        <div class="stage-title">
+                            Pruebas
+                            <span class="stage-count">3</span>
+                        </div>
+                    </div>
+                    <div class="stage-cards">
+                        <div class="candidate-card">
+                            <div class="candidate-header">
+                                <div class="candidate-avatar">AM</div>
+                                <div class="candidate-info">
+                                    <div class="candidate-name">Ana Martínez</div>
+                                    <div class="candidate-title">4 años exp. • Backend</div>
+                                </div>
+                                <div class="match-score">88%</div>
+                            </div>
+                            <div class="candidate-details">
+                                <div class="detail-row">
+                                    <span>Prueba técnica:</span>
+                                    <span style="color: #22c55e;">Completada</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Puntaje:</span>
+                                    <span style="font-weight: bold;">87/100</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Psicométrica:</span>
+                                    <span style="color: #f59e0b;">En progreso</span>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="action-btn">📊 Ver resultados</button>
+                                <button class="action-btn">➡️ A entrevista</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Entrevista interna -->
+                <div class="pipeline-stage stage-entrevista-interna">
+                    <div class="stage-header">
+                        <div class="stage-title">
+                            Entrevista interna
+                            <span class="stage-count">2</span>
+                        </div>
+                    </div>
+                    <div class="stage-cards">
+                        <div class="candidate-card">
+                            <div class="candidate-header">
+                                <div class="candidate-avatar">LF</div>
+                                <div class="candidate-info">
+                                    <div class="candidate-name">Luis Fernández</div>
+                                    <div class="candidate-title">7 años exp. • Full Stack</div>
+                                </div>
+                                <div class="match-score">95%</div>
+                            </div>
+                            <div class="candidate-details">
+                                <div class="detail-row">
+                                    <span>Entrevista:</span>
+                                    <span style="color: #22c55e;">Completada</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Calificación:</span>
+                                    <span style="font-weight: bold;">Excelente</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Transcripción:</span>
+                                    <span style="color: #06b6d4;">Disponible</span>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="action-btn">Ver notas</button>
+                                <button class="action-btn">🎥 Transcripción</button>
+                                <button class="action-btn">➡️ Al cliente</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Entrevista con cliente -->
+                <div class="pipeline-stage stage-entrevista-cliente">
+                    <div class="stage-header">
+                        <div class="stage-title">
+                            Entrevista cliente
+                            <span class="stage-count">1</span>
+                        </div>
+                    </div>
+                    <div class="stage-cards">
+                        <div class="candidate-card">
+                            <div class="candidate-header">
+                                <div class="candidate-avatar">SR</div>
+                                <div class="candidate-info">
+                                    <div class="candidate-name">Sofía Ramírez</div>
+                                    <div class="candidate-title">5 años exp. • Full Stack</div>
+                                </div>
+                                <div class="match-score">90%</div>
+                            </div>
+                            <div class="candidate-details">
+                                <div class="detail-row">
+                                    <span>Agendada:</span>
+                                    <span>21/09 - 15:00hs</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Cliente:</span>
+                                    <span>CTO TechCorp</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Estado:</span>
+                                    <span style="color: #f59e0b;">Confirmada</span>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="action-btn">📅 Reagendar</button>
+                                <button class="action-btn">Agregar notas</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shortlist/Informe -->
+                <div class="pipeline-stage stage-shortlist">
+                    <div class="stage-header">
+                        <div class="stage-title">
+                            Shortlist
+                            <span class="stage-count">0</span>
+                        </div>
+                    </div>
+                    <div class="stage-cards">
+                        <div class="empty-stage">
+                            Aún no hay candidatos en shortlist
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cierre -->
+                <div class="pipeline-stage stage-cierre">
+                    <div class="stage-header">
+                        <div class="stage-title">
+                            Cierre
+                            <span class="stage-count">0</span>
+                        </div>
+                    </div>
+                    <div class="stage-cards">
+                        <div class="empty-stage">
+                            Puesto aún no cerrado
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="candidates-list-view" id="candidatesListView">
+            <div class="candidates-stats">
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Postulantes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Entrevistas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Ofertas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Contratados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">⭐⭐⭐⭐☆</div>
+                    <div class="stat-label">Valoración media</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">28 días</div>
+                    <div class="stat-label">Tiempo medio contratación</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">34%</div>
+                    <div class="stat-label">Tasa conversión</div>
+                </div>
+            </div>
+
+            <div class="candidates-filters">
+                <div class="filter-group">
+                    <input type="text" class="search-input" placeholder="Buscar por nombre o skills">
+                </div>
+                <div class="filter-group">
+                    <select class="filter-select">
+                        <option>Todas las etapas</option>
+                        <option>Postulados</option>
+                        <option>Filtro estructurado</option>
+                        <option>Pruebas</option>
+                        <option>Entrevista interna</option>
+                        <option>Entrevista cliente</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select class="filter-select">
+                        <option>Cualquier rating</option>
+                        <option>5 estrellas</option>
+                        <option>4+ estrellas</option>
+                        <option>3+ estrellas</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select class="filter-select">
+                        <option>Filtrar por ubicación</option>
+                        <option>Lima</option>
+                        <option>Arequipa</option>
+                        <option>Trujillo</option>
+                        <option>Cusco</option>
+                        <option>Piura</option>
+                    </select>
+                </div>
+                <div class="view-toggle">
+                    <button class="view-btn active">Vista Lista</button>
+                    <button class="view-btn">Vista Pipeline</button>
+                </div>
+            </div>
+
+            <div class="candidates-table">
+                <div class="table-header">
+                    <div>Candidato</div>
+                    <div>Ubicación</div>
+                    <div>Rating</div>
+                    <div>Etapa</div>
+                    <div>Aplicado</div>
+                    <div>Acciones</div>
+                </div>
+
+                <div class="table-row">
+                    <div class="candidate-cell">
+                        <div class="candidate-avatar">SA</div>
+                        <div class="candidate-info-cell">
+                            <div class="candidate-name-cell">Sofía Álvarez</div>
+                            <div class="candidate-details-cell">✉️ sofia.alvarez@ejemplo.com 📞 +51 934 644 110 992</div>
+                            <div class="candidate-details-cell">Skills: React, SWR, Jest</div>
+                        </div>
+                    </div>
+                    <div>Lima</div>
+                    <div class="rating-stars">
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                    </div>
+                    <div><span class="stage-badge stage-postulados-badge">Aplicado</span></div>
+                    <div>2024-12-06</div>
+                    <div class="actions-cell">
+                        <button class="action-btn-small primary-action">Entrevista</button>
+                        <a href="#" class="action-btn-small">CV</a>
+                        <button class="action-btn-small secondary-action">Siguiente</button>
+                    </div>
+                </div>
+
+                <div class="table-row">
+                    <div class="candidate-cell">
+                        <div class="candidate-avatar">LR</div>
+                        <div class="candidate-info-cell">
+                            <div class="candidate-name-cell">Lucía Romero</div>
+                            <div class="candidate-details-cell">✉️ lucia.romero@ejemplo.com 📞 +51 934 655 120 778</div>
+                            <div class="candidate-details-cell">Skills: React, Zustand, i18n, CI/CD</div>
+                        </div>
+                    </div>
+                    <div>Arequipa</div>
+                    <div class="rating-stars">
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                    </div>
+                    <div><span class="stage-badge stage-postulados-badge">Aplicado</span></div>
+                    <div>2024-12-05</div>
+                    <div class="actions-cell">
+                        <button class="action-btn-small primary-action">Entrevista</button>
+                        <a href="#" class="action-btn-small">CV</a>
+                        <button class="action-btn-small secondary-action">Siguiente</button>
+                    </div>
+                </div>
+
+                <div class="table-row">
+                    <div class="candidate-cell">
+                        <div class="candidate-avatar">JP</div>
+                        <div class="candidate-info-cell">
+                            <div class="candidate-name-cell">Javier Pérez</div>
+                            <div class="candidate-details-cell">✉️ javier.perez@ejemplo.com 📞 +51 934 673 889 002</div>
+                            <div class="candidate-details-cell">Skills: Next.js, React 19, CVA, Shad...</div>
+                        </div>
+                    </div>
+                    <div>Cusco</div>
+                    <div class="rating-stars">
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                    </div>
+                    <div><span class="stage-badge stage-filtro-badge">Filtrado</span></div>
+                    <div>2024-12-04</div>
+                    <div class="actions-cell">
+                        <button class="action-btn-small primary-action">Entrevista</button>
+                        <a href="#" class="action-btn-small">CV</a>
+                        <button class="action-btn-small secondary-action">Siguiente</button>
+                    </div>
+                </div>
+
+                <div class="table-row">
+                    <div class="candidate-cell">
+                        <div class="candidate-avatar">MG</div>
+                        <div class="candidate-info-cell">
+                            <div class="candidate-name-cell">María González</div>
+                            <div class="candidate-details-cell">✉️ maria.gonzalez@ejemplo.com 📞 +51 934 612 223 991</div>
+                            <div class="candidate-details-cell">Skills: React, TypeScript, Tailwind, T...</div>
+                        </div>
+                    </div>
+                    <div>Trujillo</div>
+                    <div class="rating-stars">
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                    </div>
+                    <div><span class="stage-badge stage-entrevista-interna-badge">Entrevista Técnica</span></div>
+                    <div>2024-12-02</div>
+                    <div class="actions-cell">
+                        <button class="action-btn-small primary-action">Entrevista</button>
+                        <a href="#" class="action-btn-small">CV</a>
+                        <button class="action-btn-small secondary-action">Siguiente</button>
+                    </div>
+                </div>
+
+                <div class="table-row">
+                    <div class="candidate-cell">
+                        <div class="candidate-avatar">DN</div>
+                        <div class="candidate-info-cell">
+                            <div class="candidate-name-cell">Diego Navarro</div>
+                            <div class="candidate-details-cell">✉️ diego.navarro@ejemplo.com 📞 +51 934 698 330 441</div>
+                            <div class="candidate-details-cell">Skills: React, TS, Vite, Arquitectura</div>
+                        </div>
+                    </div>
+                    <div>Piura</div>
+                    <div class="rating-stars">
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                    </div>
+                    <div><span class="stage-badge stage-entrevista-cliente-badge">Entrevista Final</span></div>
+                    <div>2024-12-01</div>
+                    <div class="actions-cell">
+                        <button class="action-btn-small primary-action">Entrevista</button>
+                        <a href="#" class="action-btn-small">CV</a>
+                        <button class="action-btn-small secondary-action">Siguiente</button>
+                    </div>
+                </div>
+
+                <div class="table-row">
+                    <div class="candidate-cell">
+                        <div class="candidate-avatar">AV</div>
+                        <div class="candidate-info-cell">
+                            <div class="candidate-name-cell">Andrés Vela</div>
+                            <div class="candidate-details-cell">✉️ andres.vela@ejemplo.com 📞 +51 934 633 404 550</div>
+                            <div class="candidate-details-cell">Skills: React, TanStack, SSR</div>
+                        </div>
+                    </div>
+                    <div>Lima</div>
+                    <div class="rating-stars">
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star filled" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                        <svg class="star" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.98 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/>
+                        </svg>
+                    </div>
+                    <div><span class="stage-badge stage-filtro-badge">Oferta</span></div>
+                    <div>2024-11-29</div>
+                    <div class="actions-cell">
+                        <button class="action-btn-small primary-action">Entrevista</button>
+                        <a href="#" class="action-btn-small">CV</a>
+                        <button class="action-btn-small secondary-action">Siguiente</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </main>
+    </div>
+
+    <script>
+        // Drag and drop functionality (basic simulation)
+        let draggedCard = null;
+
+        document.querySelectorAll('.candidate-card').forEach(card => {
+            card.draggable = true;
+
+            card.addEventListener('dragstart', function(e) {
+                draggedCard = this;
+                this.style.opacity = '0.5';
+            });
+
+            card.addEventListener('dragend', function(e) {
+                this.style.opacity = '1';
+                draggedCard = null;
+            });
+        });
+
+        document.querySelectorAll('.pipeline-stage').forEach(stage => {
+            stage.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.backgroundColor = 'var(--accent)';
+            });
+
+            stage.addEventListener('dragleave', function(e) {
+                this.style.backgroundColor = '';
+            });
+
+            stage.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.backgroundColor = '';
+
+                if (draggedCard) {
+                    const stageCards = this.querySelector('.stage-cards');
+                    const addBtn = stageCards.querySelector('.add-candidate-btn');
+
+                    if (addBtn) {
+                        stageCards.insertBefore(draggedCard, addBtn);
+                    } else {
+                        stageCards.appendChild(draggedCard);
+                    }
+
+                    // Update stage count
+                    const countEl = this.querySelector('.stage-count');
+                    const currentCount = parseInt(countEl.textContent);
+                    countEl.textContent = currentCount + 1;
+                }
+            });
+        });
+
+        // Tab functionality
+        document.querySelectorAll('.tab-button').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab-button').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                const tabText = this.textContent.trim();
+                const pipelineContainer = document.querySelector('.pipeline-container');
+                const candidatesListView = document.querySelector('.candidates-list-view');
+
+                // Show/hide views based on selected tab
+                if (tabText === 'Candidatos') {
+                    pipelineContainer.style.display = 'none';
+                    candidatesListView.style.display = 'block';
+                } else if (tabText === 'Pipeline') {
+                    pipelineContainer.style.display = 'block';
+                    candidatesListView.style.display = 'none';
+                } else {
+                    // For other tabs, hide both views (you can add specific views later)
+                    pipelineContainer.style.display = 'none';
+                    candidatesListView.style.display = 'none';
+                }
+
+                console.log('Switched to tab:', tabText);
+            });
+        });
+
+        // View toggle functionality within candidates list
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                const viewText = this.textContent.trim();
+                const pipelineContainer = document.querySelector('.pipeline-container');
+                const candidatesListView = document.querySelector('.candidates-list-view');
+
+                if (viewText === 'Vista Pipeline') {
+                    // Switch back to pipeline tab
+                    document.querySelectorAll('.tab-button').forEach(t => t.classList.remove('active'));
+                    document.querySelector('.tab-button').classList.add('active'); // Pipeline tab (first one)
+                    pipelineContainer.style.display = 'block';
+                    candidatesListView.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

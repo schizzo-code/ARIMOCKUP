@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARI Reclutamiento - Puestos</title>
+    <style>
+        :root {
+            --background: oklch(1.0000 0 0);
+            --foreground: oklch(0.1884 0.0128 248.5103);
+            --card: oklch(0.9784 0.0011 197.1387);
+            --card-foreground: oklch(0.1884 0.0128 248.5103);
+            --primary: oklch(0.8015 0.1571 90.9558);
+            --primary-foreground: oklch(1.0000 0 0);
+            --secondary: oklch(0.1884 0.0128 248.5103);
+            --secondary-foreground: oklch(1.0000 0 0);
+            --muted: oklch(0.9222 0.0013 286.3737);
+            --muted-foreground: oklch(0.1884 0.0128 248.5103);
+            --accent: oklch(0.9392 0.0166 250.8453);
+            --accent-foreground: oklch(0.6723 0.1606 244.9955);
+            --border: oklch(0.9317 0.0118 231.6594);
+            --destructive: oklch(0.6188 0.2376 25.7658);
+            --destructive-foreground: oklch(1.0000 0 0);
+            --sidebar: oklch(0.9784 0.0011 197.1387);
+            --sidebar-foreground: oklch(0.1884 0.0128 248.5103);
+            --sidebar-border: oklch(0.9271 0.0101 238.5177);
+            --font-sans: 'Open Sans', sans-serif;
+            --radius: 1.3rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--background);
+            color: var(--foreground);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .top-header {
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .notification-btn:hover {
+            background: var(--accent);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 8px;
+            height: 8px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .user-profile:hover {
+            background: var(--accent);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--sidebar);
+            border-right: 1px solid var(--sidebar-border);
+            padding: 1rem;
+        }
+
+        .logo {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem;
+            color: var(--sidebar-foreground);
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--accent);
+            color: var(--accent-foreground);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .icon-dashboard {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>') no-repeat center;
+        }
+
+        .icon-users {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/></svg>') no-repeat center;
+        }
+
+        .icon-briefcase {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0H8m8 0v2a2 2 0 01-2 2H10a2 2 0 01-2-2V6m8 0V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2z"/></svg>') no-repeat center;
+        }
+
+        .icon-calendar {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>') no-repeat center;
+        }
+
+        .icon-chart {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>') no-repeat center;
+        }
+
+        .icon-settings {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>') no-repeat center;
+        }
+
+        .icon-bell {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>') no-repeat center;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: var(--foreground);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--secondary-foreground);
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            background: var(--background);
+            min-width: 150px;
+        }
+
+        .view-toggle {
+            display: flex;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .view-btn {
+            padding: 0.5rem 1rem;
+            background: var(--background);
+            border: none;
+            cursor: pointer;
+            border-right: 1px solid var(--border);
+        }
+
+        .view-btn:last-child {
+            border-right: none;
+        }
+
+        .view-btn.active {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .jobs-table {
+            background: var(--card);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--muted);
+            font-weight: 600;
+            color: var(--foreground);
+        }
+
+        tr:hover {
+            background: var(--accent);
+        }
+
+        .job-title {
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        .job-title:hover {
+            text-decoration: underline;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-open {
+            background: #22c55e;
+            color: white;
+        }
+
+        .status-shortlist {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .status-covered {
+            background: var(--muted);
+            color: var(--muted-foreground);
+        }
+
+        .status-cancelled {
+            background: var(--destructive);
+            color: var(--destructive-foreground);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--muted);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .candidate-count {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .stage-count {
+            background: var(--accent);
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+        }
+
+        .sla-warning {
+            color: var(--destructive);
+            font-weight: 600;
+        }
+
+        .kanban-view {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .kanban-column {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 1rem;
+        }
+
+        .kanban-header {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .job-card {
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .job-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--muted-foreground);
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <button class="notification-btn">
+            <span class="icon icon-bell"></span>
+            <span class="notification-badge"></span>
+        </button>
+        <div class="user-profile">
+            <div class="user-avatar">A</div>
+            <span class="user-name">Admin</span>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>ARI</h1>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="dashboard.html" class="nav-link"><span class="icon icon-dashboard"></span>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="puestos.html" class="nav-link active"><span class="icon icon-briefcase"></span>Puestos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="candidatos.html" class="nav-link"><span class="icon icon-users"></span>Candidatos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="calendario.html" class="nav-link"><span class="icon icon-calendar"></span>Calendario</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="informes.html" class="nav-link"><span class="icon icon-chart"></span>Informes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link"><span class="icon icon-settings"></span>Configuración</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+        <header class="header">
+            <h1>Puestos</h1>
+            <div class="header-actions">
+                <div class="view-toggle">
+                    <button class="view-btn active" data-view="table">Tabla</button>
+                    <button class="view-btn" data-view="kanban">Kanban</button>
+                </div>
+                <a href="#" class="btn">+ Crear puesto</a>
+            </div>
+        </header>
+
+        <div class="filters">
+            <select class="filter-select">
+                <option value="">Todos los clientes</option>
+                <option value="techcorp">TechCorp</option>
+                <option value="startupxyz">StartupXYZ</option>
+                <option value="innovacorp">InnovaCorp</option>
+                <option value="datacorp">DataCorp</option>
+            </select>
+            <select class="filter-select">
+                <option value="">Todos los estados</option>
+                <option value="open">Abierto</option>
+                <option value="shortlist">En shortlist</option>
+                <option value="covered">Cubierto</option>
+                <option value="cancelled">Cancelado</option>
+            </select>
+            <select class="filter-select">
+                <option value="">Todos los seniority</option>
+                <option value="junior">Junior</option>
+                <option value="semi-senior">Semi Senior</option>
+                <option value="senior">Senior</option>
+                <option value="lead">Lead</option>
+            </select>
+            <select class="filter-select">
+                <option value="">Todos los responsables</option>
+                <option value="juan">Juan Martínez</option>
+                <option value="maria">María López</option>
+                <option value="carlos">Carlos García</option>
+            </select>
+        </div>
+
+        <div id="tableView" class="jobs-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Puesto</th>
+                        <th>Cliente</th>
+                        <th>Responsable</th>
+                        <th>Estado</th>
+                        <th>Candidatos</th>
+                        <th>Progreso</th>
+                        <th>SLA</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="job-title" onclick="window.location.href='puesto-detalle.html'">Desarrollador Full Stack Sr.</div>
+                            <div style="font-size: 0.8rem; color: var(--muted-foreground);">React + Node.js</div>
+                        </td>
+                        <td>TechCorp</td>
+                        <td>Juan Martínez</td>
+                        <td><span class="status-badge status-open">Abierto</span></td>
+                        <td>
+                            <div class="candidate-count">
+                                <span class="stage-count">12 Post.</span>
+                                <span class="stage-count">8 Filt.</span>
+                                <span class="stage-count">3 Prue.</span>
+                                <span class="stage-count">2 Ent.</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 60%"></div>
+                            </div>
+                            <div style="font-size: 0.8rem; margin-top: 0.25rem;">60% completado</div>
+                        </td>
+                        <td>5 días</td>
+                        <td>
+                            <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">Ver</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="job-title">UX/UI Designer</div>
+                            <div style="font-size: 0.8rem; color: var(--muted-foreground);">Figma + Prototipado</div>
+                        </td>
+                        <td>StartupXYZ</td>
+                        <td>María López</td>
+                        <td><span class="status-badge status-shortlist">En shortlist</span></td>
+                        <td>
+                            <div class="candidate-count">
+                                <span class="stage-count">8 Post.</span>
+                                <span class="stage-count">5 Filt.</span>
+                                <span class="stage-count">3 Prue.</span>
+                                <span class="stage-count">2 Ent.</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 85%"></div>
+                            </div>
+                            <div style="font-size: 0.8rem; margin-top: 0.25rem;">85% completado</div>
+                        </td>
+                        <td class="sla-warning">2 días ⚠️</td>
+                        <td>
+                            <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">Ver</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="job-title">Product Manager</div>
+                            <div style="font-size: 0.8rem; color: var(--muted-foreground);">Agile + Analytics</div>
+                        </td>
+                        <td>InnovaCorp</td>
+                        <td>Carlos García</td>
+                        <td><span class="status-badge status-open">Abierto</span></td>
+                        <td>
+                            <div class="candidate-count">
+                                <span class="stage-count">15 Post.</span>
+                                <span class="stage-count">10 Filt.</span>
+                                <span class="stage-count">4 Prue.</span>
+                                <span class="stage-count">1 Ent.</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 40%"></div>
+                            </div>
+                            <div style="font-size: 0.8rem; margin-top: 0.25rem;">40% completado</div>
+                        </td>
+                        <td>8 días</td>
+                        <td>
+                            <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">Ver</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="job-title">Data Analyst Sr.</div>
+                            <div style="font-size: 0.8rem; color: var(--muted-foreground);">Python + SQL + BI</div>
+                        </td>
+                        <td>DataCorp</td>
+                        <td>Juan Martínez</td>
+                        <td><span class="status-badge status-covered">Cubierto</span></td>
+                        <td>
+                            <div class="candidate-count">
+                                <span class="stage-count">22 Post.</span>
+                                <span class="stage-count">12 Filt.</span>
+                                <span class="stage-count">6 Prue.</span>
+                                <span class="stage-count">3 Ent.</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%"></div>
+                            </div>
+                            <div style="font-size: 0.8rem; margin-top: 0.25rem;">Completado</div>
+                        </td>
+                        <td>-</td>
+                        <td>
+                            <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">Ver</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="kanbanView" class="kanban-view">
+            <div class="kanban-column">
+                <div class="kanban-header">🟢 Abiertos (3)</div>
+                <div class="job-card" onclick="window.location.href='puesto-detalle.html'">
+                    <h4>Desarrollador Full Stack Sr.</h4>
+                    <p style="font-size: 0.8rem; color: var(--muted-foreground); margin: 0.5rem 0;">TechCorp - Juan Martínez</p>
+                    <div class="candidate-count">
+                        <span class="stage-count">25 candidatos</span>
+                    </div>
+                    <div style="margin-top: 0.5rem; font-size: 0.8rem;">SLA: 5 días</div>
+                </div>
+                <div class="job-card">
+                    <h4>Product Manager</h4>
+                    <p style="font-size: 0.8rem; color: var(--muted-foreground); margin: 0.5rem 0;">InnovaCorp - Carlos García</p>
+                    <div class="candidate-count">
+                        <span class="stage-count">30 candidatos</span>
+                    </div>
+                    <div style="margin-top: 0.5rem; font-size: 0.8rem;">SLA: 8 días</div>
+                </div>
+                <div class="job-card">
+                    <h4>DevOps Engineer</h4>
+                    <p style="font-size: 0.8rem; color: var(--muted-foreground); margin: 0.5rem 0;">TechCorp - María López</p>
+                    <div class="candidate-count">
+                        <span class="stage-count">18 candidatos</span>
+                    </div>
+                    <div style="margin-top: 0.5rem; font-size: 0.8rem;">SLA: 12 días</div>
+                </div>
+            </div>
+
+            <div class="kanban-column">
+                <div class="kanban-header">En Shortlist (1)</div>
+                <div class="job-card">
+                    <h4>UX/UI Designer</h4>
+                    <p style="font-size: 0.8rem; color: var(--muted-foreground); margin: 0.5rem 0;">StartupXYZ - María López</p>
+                    <div class="candidate-count">
+                        <span class="stage-count">18 candidatos</span>
+                    </div>
+                    <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--destructive);">SLA: 2 días ⚠️</div>
+                </div>
+            </div>
+
+            <div class="kanban-column">
+                <div class="kanban-header">Cubiertos (1)</div>
+                <div class="job-card">
+                    <h4>Data Analyst Sr.</h4>
+                    <p style="font-size: 0.8rem; color: var(--muted-foreground); margin: 0.5rem 0;">DataCorp - Juan Martínez</p>
+                    <div class="candidate-count">
+                        <span class="stage-count">Completado</span>
+                    </div>
+                    <div style="margin-top: 0.5rem; font-size: 0.8rem;">Cerrado el 15/09</div>
+                </div>
+            </div>
+
+            <div class="kanban-column">
+                <div class="kanban-header">Cancelados (0)</div>
+                <div class="empty-state">No hay puestos cancelados</div>
+            </div>
+        </div>
+        </main>
+    </div>
+
+    <script>
+        // View toggle functionality
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const view = this.dataset.view;
+
+                // Update button states
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                // Toggle views
+                if (view === 'table') {
+                    document.getElementById('tableView').style.display = 'block';
+                    document.getElementById('kanbanView').style.display = 'none';
+                } else {
+                    document.getElementById('tableView').style.display = 'none';
+                    document.getElementById('kanbanView').style.display = 'grid';
+                }
+            });
+        });
+
+        // Filter functionality
+        document.querySelectorAll('.filter-select').forEach(select => {
+            select.addEventListener('change', function() {
+                console.log('Filter changed:', this.value);
+                // Filter implementation would go here
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARI Reclutamiento - Base de Candidatos</title>
+    <style>
+        :root {
+            --background: oklch(1.0000 0 0);
+            --foreground: oklch(0.1884 0.0128 248.5103);
+            --card: oklch(0.9784 0.0011 197.1387);
+            --card-foreground: oklch(0.1884 0.0128 248.5103);
+            --primary: oklch(0.8015 0.1571 90.9558);
+            --primary-foreground: oklch(1.0000 0 0);
+            --secondary: oklch(0.1884 0.0128 248.5103);
+            --secondary-foreground: oklch(1.0000 0 0);
+            --muted: oklch(0.9222 0.0013 286.3737);
+            --muted-foreground: oklch(0.1884 0.0128 248.5103);
+            --accent: oklch(0.9392 0.0166 250.8453);
+            --accent-foreground: oklch(0.6723 0.1606 244.9955);
+            --border: oklch(0.9317 0.0118 231.6594);
+            --destructive: oklch(0.6188 0.2376 25.7658);
+            --destructive-foreground: oklch(1.0000 0 0);
+            --sidebar: oklch(0.9784 0.0011 197.1387);
+            --sidebar-foreground: oklch(0.1884 0.0128 248.5103);
+            --sidebar-border: oklch(0.9271 0.0101 238.5177);
+            --font-sans: 'Open Sans', sans-serif;
+            --radius: 1.3rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--background);
+            color: var(--foreground);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .top-header {
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .notification-btn:hover {
+            background: var(--accent);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 8px;
+            height: 8px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .user-profile:hover {
+            background: var(--accent);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+        }
+
+        .icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .icon-dashboard {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>') no-repeat center;
+        }
+
+        .icon-users {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/></svg>') no-repeat center;
+        }
+
+        .icon-briefcase {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0H8m8 0v2a2 2 0 01-2 2H10a2 2 0 01-2-2V6m8 0V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2z"/></svg>') no-repeat center;
+        }
+
+        .icon-calendar {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>') no-repeat center;
+        }
+
+        .icon-chart {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>') no-repeat center;
+        }
+
+        .icon-settings {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>') no-repeat center;
+        }
+
+        .icon-bell {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>') no-repeat center;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--sidebar);
+            border-right: 1px solid var(--sidebar-border);
+            padding: 1rem;
+        }
+
+        .logo {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem;
+            color: var(--sidebar-foreground);
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--accent);
+            color: var(--accent-foreground);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 2rem 2rem 1rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--background);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-section {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1rem;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--secondary-foreground);
+        }
+
+        .saved-searches {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .saved-search {
+            padding: 0.5rem 1rem;
+            background: var(--accent);
+            color: var(--accent-foreground);
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .content-area {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .filters-panel {
+            width: 300px;
+            background: var(--card);
+            border-right: 1px solid var(--border);
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .filter-section {
+            margin-bottom: 2rem;
+        }
+
+        .filter-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--foreground);
+        }
+
+        .filter-group {
+            margin-bottom: 1rem;
+        }
+
+        .filter-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--muted-foreground);
+        }
+
+        .filter-select, .filter-input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            background: var(--background);
+        }
+
+        .filter-checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin: 0;
+        }
+
+        .checkbox-item label {
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .count {
+            color: var(--muted-foreground);
+            font-size: 0.8rem;
+        }
+
+        .candidates-grid {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .results-count {
+            color: var(--muted-foreground);
+        }
+
+        .view-options {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .view-btn {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            background: var(--background);
+            cursor: pointer;
+            border-radius: 0.25rem;
+        }
+
+        .view-btn.active {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .candidates-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .candidate-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .candidate-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .candidate-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .candidate-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+
+        .candidate-info h3 {
+            margin-bottom: 0.25rem;
+            color: var(--foreground);
+        }
+
+        .candidate-subtitle {
+            font-size: 0.9rem;
+            color: var(--muted-foreground);
+        }
+
+        .candidate-stats {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.8rem;
+        }
+
+        .stat {
+            color: var(--muted-foreground);
+        }
+
+        .skills-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .skill-tag {
+            padding: 0.25rem 0.75rem;
+            background: var(--accent);
+            color: var(--accent-foreground);
+            border-radius: 1rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .candidate-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .source-badge {
+            padding: 0.25rem 0.5rem;
+            background: var(--muted);
+            color: var(--muted-foreground);
+            border-radius: 0.25rem;
+            font-size: 0.7rem;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .status-available {
+            background: #22c55e;
+            color: white;
+        }
+
+        .status-active {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .status-inactive {
+            background: var(--muted);
+            color: var(--muted-foreground);
+        }
+
+        .candidate-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            border: 1px solid var(--border);
+            background: var(--background);
+            color: var(--foreground);
+            border-radius: 0.25rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .action-btn:hover {
+            background: var(--accent);
+        }
+
+        .action-btn-primary {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border-color: var(--primary);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .page-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            background: var(--background);
+            cursor: pointer;
+            border-radius: 0.25rem;
+        }
+
+        .page-btn.active {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <button class="notification-btn">
+            <span class="icon icon-bell"></span>
+            <span class="notification-badge"></span>
+        </button>
+        <div class="user-profile">
+            <div class="user-avatar">A</div>
+            <span class="user-name">Admin</span>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>ARI</h1>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="dashboard.html" class="nav-link"><span class="icon icon-dashboard"></span>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="puestos.html" class="nav-link"><span class="icon icon-briefcase"></span>Puestos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="candidatos.html" class="nav-link active"><span class="icon icon-users"></span>Candidatos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="calendario.html" class="nav-link"><span class="icon icon-calendar"></span>Calendario</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="informes.html" class="nav-link"><span class="icon icon-chart"></span>Informes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link"><span class="icon icon-settings"></span>Configuración</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+        <header class="header">
+            <h1>Base de Candidatos</h1>
+
+            <div class="search-section">
+                <input type="search" placeholder="Buscar por nombre, skills, empresa..." class="search-input">
+                <button class="btn">🔍 Buscar</button>
+                <button class="btn btn-secondary">💾 Guardar búsqueda</button>
+                <button class="btn">+ Agregar candidato</button>
+            </div>
+
+            <div class="saved-searches">
+                <div class="saved-search">
+                    🔍 Desarrolladores React Sr.
+                    <span>×</span>
+                </div>
+                <div class="saved-search">
+                    🔍 UX Designers Buenos Aires
+                    <span>×</span>
+                </div>
+                <div class="saved-search">
+                    🔍 Product Managers 5+ años
+                    <span>×</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="content-area">
+            <aside class="filters-panel">
+                <div class="filter-section">
+                    <h3 class="filter-title">🎯 Carrera/Rol</h3>
+                    <div class="filter-checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="dev" checked>
+                            <label for="dev">Desarrollo <span class="count">(245)</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="design">
+                            <label for="design">Diseño UX/UI <span class="count">(67)</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="product">
+                            <label for="product">Product Management <span class="count">(34)</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="data">
+                            <label for="data">Data & Analytics <span class="count">(89)</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="devops">
+                            <label for="devops">DevOps/SRE <span class="count">(45)</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3 class="filter-title">⚡ Skills</h3>
+                    <div class="filter-group">
+                        <input type="text" placeholder="Buscar skills..." class="filter-input">
+                    </div>
+                    <div class="filter-checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="react" checked>
+                            <label for="react">React <span class="count">(156)</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="nodejs" checked>
+                            <label for="nodejs">Node.js <span class="count">(123)</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="python">
+                            <label for="python">Python <span class="count">(98)</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="aws">
+                            <label for="aws">AWS <span class="count">(87)</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="docker">
+                            <label for="docker">Docker <span class="count">(76)</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3 class="filter-title">📊 Experiencia</h3>
+                    <div class="filter-group">
+                        <label class="filter-label">Años de experiencia</label>
+                        <select class="filter-select">
+                            <option value="">Cualquiera</option>
+                            <option value="1-2">1-2 años</option>
+                            <option value="3-5">3-5 años</option>
+                            <option value="5-8">5-8 años</option>
+                            <option value="8+">8+ años</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3 class="filter-title">📍 Ubicación</h3>
+                    <div class="filter-checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="lima" checked>
+                            <label for="lima">Lima <span class="count">(189)</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="arequipa">
+                            <label for="arequipa">Arequipa <span class="count">(156)</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="trujillo">
+                            <label for="trujillo">Trujillo <span class="count">(45)</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="remote">
+                            <label for="remote">Remoto <span class="count">(298)</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3 class="filter-title">📥 Fuente</h3>
+                    <div class="filter-checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="linkedin" checked>
+                            <label for="linkedin">LinkedIn <span class="count">(167)</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="bumeran">
+                            <label for="bumeran">Bumeran <span class="count">(89)</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="indeed">
+                            <label for="indeed">Indeed <span class="count">(76)</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="referido">
+                            <label for="referido">Referidos <span class="count">(54)</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3 class="filter-title">🟢 Estado</h3>
+                    <div class="filter-checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="disponible" checked>
+                            <label for="disponible">Disponible <span class="count">(234)</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="en-proceso">
+                            <label for="en-proceso">En proceso <span class="count">(67)</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="inactivo">
+                            <label for="inactivo">Inactivo <span class="count">(123)</span></label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <div class="candidates-grid">
+                <div class="results-header">
+                    <div class="results-count">
+                        Mostrando 156 candidatos de 245 total
+                    </div>
+                    <div class="view-options">
+                        <button class="view-btn active">📋</button>
+                        <button class="view-btn">📊</button>
+                    </div>
+                </div>
+
+                <div class="candidates-list">
+                    <div class="candidate-card" onclick="window.location.href='candidato-perfil.html'">
+                        <div class="candidate-header">
+                            <div class="candidate-avatar">JP</div>
+                            <div class="candidate-info">
+                                <h3>Juan Pérez</h3>
+                                <div class="candidate-subtitle">Desarrollador Full Stack Sr.</div>
+                            </div>
+                        </div>
+                        <div class="candidate-stats">
+                            <span class="stat">⏱️ 5 años exp.</span>
+                            <span class="stat">Lima</span>
+                            <span class="stat">💰 $180k</span>
+                        </div>
+                        <div class="skills-tags">
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">TypeScript</span>
+                            <span class="skill-tag">AWS</span>
+                            <span class="skill-tag">Docker</span>
+                        </div>
+                        <div class="candidate-meta">
+                            <span class="source-badge">LinkedIn</span>
+                            <span class="status-badge status-available">Disponible</span>
+                        </div>
+                        <div class="candidate-actions">
+                            <a href="candidato-perfil.html" class="action-btn action-btn-primary">Ver perfil</a>
+                            <button class="action-btn">💼 Asignar a puesto</button>
+                            <button class="action-btn">✉️ Contactar</button>
+                        </div>
+                    </div>
+
+                    <div class="candidate-card">
+                        <div class="candidate-header">
+                            <div class="candidate-avatar">MG</div>
+                            <div class="candidate-info">
+                                <h3>María González</h3>
+                                <div class="candidate-subtitle">UX/UI Designer</div>
+                            </div>
+                        </div>
+                        <div class="candidate-stats">
+                            <span class="stat">⏱️ 3 años exp.</span>
+                            <span class="stat">📍 Remoto</span>
+                            <span class="stat">💰 $120k</span>
+                        </div>
+                        <div class="skills-tags">
+                            <span class="skill-tag">Figma</span>
+                            <span class="skill-tag">Sketch</span>
+                            <span class="skill-tag">Prototyping</span>
+                            <span class="skill-tag">User Research</span>
+                        </div>
+                        <div class="candidate-meta">
+                            <span class="source-badge">Bumeran</span>
+                            <span class="status-badge status-active">En proceso</span>
+                        </div>
+                        <div class="candidate-actions">
+                            <button class="action-btn action-btn-primary">Ver perfil</button>
+                            <button class="action-btn">💼 Asignar a puesto</button>
+                            <button class="action-btn">✉️ Contactar</button>
+                        </div>
+                    </div>
+
+                    <div class="candidate-card">
+                        <div class="candidate-header">
+                            <div class="candidate-avatar">CR</div>
+                            <div class="candidate-info">
+                                <h3>Carlos Rodríguez</h3>
+                                <div class="candidate-subtitle">Product Manager</div>
+                            </div>
+                        </div>
+                        <div class="candidate-stats">
+                            <span class="stat">⏱️ 6 años exp.</span>
+                            <span class="stat">Arequipa</span>
+                            <span class="stat">💰 $200k</span>
+                        </div>
+                        <div class="skills-tags">
+                            <span class="skill-tag">Agile</span>
+                            <span class="skill-tag">Analytics</span>
+                            <span class="skill-tag">Roadmapping</span>
+                            <span class="skill-tag">User Stories</span>
+                        </div>
+                        <div class="candidate-meta">
+                            <span class="source-badge">LinkedIn</span>
+                            <span class="status-badge status-available">Disponible</span>
+                        </div>
+                        <div class="candidate-actions">
+                            <button class="action-btn action-btn-primary">Ver perfil</button>
+                            <button class="action-btn">💼 Asignar a puesto</button>
+                            <button class="action-btn">✉️ Contactar</button>
+                        </div>
+                    </div>
+
+                    <div class="candidate-card">
+                        <div class="candidate-header">
+                            <div class="candidate-avatar">AM</div>
+                            <div class="candidate-info">
+                                <h3>Ana Martínez</h3>
+                                <div class="candidate-subtitle">Data Analyst Sr.</div>
+                            </div>
+                        </div>
+                        <div class="candidate-stats">
+                            <span class="stat">⏱️ 4 años exp.</span>
+                            <span class="stat">Lima</span>
+                            <span class="stat">💰 $160k</span>
+                        </div>
+                        <div class="skills-tags">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">SQL</span>
+                            <span class="skill-tag">Tableau</span>
+                            <span class="skill-tag">Machine Learning</span>
+                        </div>
+                        <div class="candidate-meta">
+                            <span class="source-badge">Indeed</span>
+                            <span class="status-badge status-available">Disponible</span>
+                        </div>
+                        <div class="candidate-actions">
+                            <button class="action-btn action-btn-primary">Ver perfil</button>
+                            <button class="action-btn">💼 Asignar a puesto</button>
+                            <button class="action-btn">✉️ Contactar</button>
+                        </div>
+                    </div>
+
+                    <div class="candidate-card">
+                        <div class="candidate-header">
+                            <div class="candidate-avatar">LF</div>
+                            <div class="candidate-info">
+                                <h3>Luis Fernández</h3>
+                                <div class="candidate-subtitle">DevOps Engineer</div>
+                            </div>
+                        </div>
+                        <div class="candidate-stats">
+                            <span class="stat">⏱️ 7 años exp.</span>
+                            <span class="stat">Trujillo</span>
+                            <span class="stat">💰 $190k</span>
+                        </div>
+                        <div class="skills-tags">
+                            <span class="skill-tag">Kubernetes</span>
+                            <span class="skill-tag">AWS</span>
+                            <span class="skill-tag">Terraform</span>
+                            <span class="skill-tag">CI/CD</span>
+                        </div>
+                        <div class="candidate-meta">
+                            <span class="source-badge">Referido</span>
+                            <span class="status-badge status-inactive">Inactivo</span>
+                        </div>
+                        <div class="candidate-actions">
+                            <button class="action-btn action-btn-primary">Ver perfil</button>
+                            <button class="action-btn">💼 Asignar a puesto</button>
+                            <button class="action-btn">✉️ Contactar</button>
+                        </div>
+                    </div>
+
+                    <div class="candidate-card">
+                        <div class="candidate-header">
+                            <div class="candidate-avatar">SR</div>
+                            <div class="candidate-info">
+                                <h3>Sofía Ramírez</h3>
+                                <div class="candidate-subtitle">Frontend Developer</div>
+                            </div>
+                        </div>
+                        <div class="candidate-stats">
+                            <span class="stat">⏱️ 3 años exp.</span>
+                            <span class="stat">📍 Remoto</span>
+                            <span class="stat">💰 $130k</span>
+                        </div>
+                        <div class="skills-tags">
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Vue.js</span>
+                            <span class="skill-tag">CSS3</span>
+                            <span class="skill-tag">JavaScript</span>
+                        </div>
+                        <div class="candidate-meta">
+                            <span class="source-badge">LinkedIn</span>
+                            <span class="status-badge status-active">En proceso</span>
+                        </div>
+                        <div class="candidate-actions">
+                            <button class="action-btn action-btn-primary">Ver perfil</button>
+                            <button class="action-btn">💼 Asignar a puesto</button>
+                            <button class="action-btn">✉️ Contactar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pagination">
+                    <button class="page-btn">‹ Anterior</button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">...</button>
+                    <button class="page-btn">12</button>
+                    <button class="page-btn">Siguiente ›</button>
+                </div>
+            </div>
+        </div>
+        </main>
+    </div>
+
+    <script>
+        // Filter functionality
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                console.log('Filter changed:', this.id, this.checked);
+                // Filter implementation would go here
+            });
+        });
+
+        // Search functionality
+        document.querySelector('.search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                console.log('Search:', this.value);
+                // Search implementation would go here
+            }
+        });
+
+        // Saved search removal
+        document.querySelectorAll('.saved-search span').forEach(closeBtn => {
+            closeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.parentElement.remove();
+            });
+        });
+
+        // View toggle
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
