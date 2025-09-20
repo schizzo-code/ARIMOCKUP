@@ -754,6 +754,9 @@
                         <a href="calendario.html" class="nav-link"><span class="icon icon-calendar"></span>Calendario</a>
                     </li>
                     <li class="nav-item">
+                        <a href="mensajes.html" class="nav-link"><span class="icon icon-chart"></span>Mensajes</a>
+                    </li>
+                    <li class="nav-item">
                         <a href="informes.html" class="nav-link"><span class="icon icon-chart"></span>Informes</a>
                     </li>
                     <li class="nav-item">
@@ -798,6 +801,7 @@
                 <li><button class="tab-button">Entrevistas</button></li>
                 <li><button class="tab-button">Informes</button></li>
                 <li><button class="tab-button">Actividad</button></li>
+                <li><button class="tab-button">Mensajes</button></li>
             </ul>
         </div>
 
@@ -839,7 +843,7 @@
                             </div>
                             <div class="card-actions">
                                 <button class="action-btn">📋 Ver perfil</button>
-                                <button class="action-btn">✉️ Contactar</button>
+                                <button class="action-btn" data-open-thread="Juan Pérez" data-etapa="Postulados" data-match="85%">✉️ Contactar</button>
                                 <button class="action-btn">➡️ Mover</button>
                             </div>
                         </div>
@@ -870,7 +874,7 @@
                             </div>
                             <div class="card-actions">
                                 <button class="action-btn">📋 Ver perfil</button>
-                                <button class="action-btn">✉️ Contactar</button>
+                                <button class="action-btn" data-open-thread="María González" data-etapa="Postulados" data-match="72%">✉️ Contactar</button>
                                 <button class="action-btn">➡️ Mover</button>
                             </div>
                         </div>
@@ -1374,6 +1378,39 @@
                 </div>
             </div>
         </div>
+        <div class="candidates-list-view" id="messagesView" style="display: none;">
+            <div class="msg-app" data-msg-app>
+                <div class="msg-card msg-sidebar">
+                    <div class="msg-sidebar-header">
+                        <strong>Canales</strong>
+                        <input type="search" placeholder="Buscar..." class="msg-search">
+                    </div>
+                    <div data-msg-channel-list></div>
+                </div>
+                <div class="msg-card msg-main">
+                    <div class="msg-main-header">
+                        <div data-msg-header>Canal</div>
+                        <div class="msg-hint">Los hilos de candidatos viven en el canal del puesto</div>
+                    </div>
+                    <div class="msg-list" data-msg-list></div>
+                    <div class="msg-composer">
+                        <input type="text" class="msg-input" placeholder="Escribe un mensaje..." data-msg-input>
+                        <button class="msg-send-btn" data-msg-send>Enviar</button>
+                    </div>
+                </div>
+                <div class="msg-card msg-thread">
+                    <div class="msg-thread-header">
+                        <div data-msg-thread-title>Hilo</div>
+                        <div class="msg-hint">Cada candidato tiene su hilo</div>
+                    </div>
+                    <div class="msg-thread-list" data-msg-thread-list></div>
+                    <div class="msg-composer">
+                        <input type="text" class="msg-input" placeholder="Responder en hilo..." data-msg-thread-input>
+                        <button class="msg-send-btn" data-msg-thread-send>Enviar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         </main>
     </div>
     <footer class="site-footer">2025 Desarrollado por <a href="https://iarvix.ai" target="_blank" rel="noopener noreferrer"><strong>iarvix.ai</strong></a> en demo para ARI. No se permite el uso, copia ni distribución.</footer>
@@ -1437,18 +1474,26 @@
                 const tabText = this.textContent.trim();
                 const pipelineContainer = document.querySelector('.pipeline-container');
                 const candidatesListView = document.querySelector('.candidates-list-view');
+                const messagesView = document.getElementById('messagesView');
 
                 // Show/hide views based on selected tab
                 if (tabText === 'Candidatos') {
                     pipelineContainer.style.display = 'none';
                     candidatesListView.style.display = 'block';
+                    messagesView.style.display = 'none';
                 } else if (tabText === 'Pipeline') {
                     pipelineContainer.style.display = 'block';
                     candidatesListView.style.display = 'none';
+                    messagesView.style.display = 'none';
+                } else if (tabText === 'Mensajes') {
+                    pipelineContainer.style.display = 'none';
+                    candidatesListView.style.display = 'none';
+                    messagesView.style.display = 'block';
                 } else {
                     // For other tabs, hide both views (you can add specific views later)
                     pipelineContainer.style.display = 'none';
                     candidatesListView.style.display = 'none';
+                    messagesView.style.display = 'none';
                 }
 
                 console.log('Switched to tab:', tabText);
@@ -1475,5 +1520,7 @@
             });
         });
     </script>
+    <link rel="stylesheet" href="assets/css/messaging.css">
+    <script src="assets/js/messaging.js"></script>
 </body>
 </html>

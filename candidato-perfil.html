@@ -149,6 +149,10 @@
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>') no-repeat center;
         }
 
+        .icon-chat {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12a8 8 0 01-8 8c-1.266 0-2.457-.293-3.5-.81L3 20l1.81-3.5A7.963 7.963 0 015 12a8 8 0 0116 0z"/></svg>') no-repeat center;
+        }
+
         .sidebar {
             width: 250px;
             background: var(--sidebar);
@@ -798,6 +802,9 @@
                         <a href="calendario.html" class="nav-link"><span class="icon icon-calendar"></span>Calendario</a>
                     </li>
                     <li class="nav-item">
+                        <a href="mensajes.html" class="nav-link"><span class="icon icon-chat"></span>Mensajes</a>
+                    </li>
+                    <li class="nav-item">
                         <a href="informes.html" class="nav-link"><span class="icon icon-chart"></span>Informes</a>
                     </li>
                     <li class="nav-item">
@@ -848,7 +855,7 @@
 
                     <div class="header-actions">
                         <button class="btn">💼 Asignar a puesto</button>
-                        <button class="btn btn-secondary">✉️ Enviar mensaje</button>
+                        <button class="btn btn-secondary" data-open-thread="Juan Pérez" data-etapa="Resumen" data-match="85%">✉️ Enviar mensaje</button>
                         <button class="btn btn-outline">📅 Agendar entrevista</button>
                         <button class="btn btn-outline">📝 Agregar nota</button>
                         <button class="btn btn-outline">🏷️ Etiquetar</button>
@@ -868,6 +875,7 @@
                 <li><button class="tab-button" data-tab="cv">CV</button></li>
                 <li><button class="tab-button" data-tab="evaluaciones">Evaluaciones</button></li>
                 <li><button class="tab-button" data-tab="entrevistas">Entrevistas</button></li>
+                <li><button class="tab-button" data-tab="hilos">Hilos</button></li>
                 <li><button class="tab-button" data-tab="historial">Historial</button></li>
                 <li><button class="tab-button" data-tab="documentos">Documentos</button></li>
             </ul>
@@ -1429,6 +1437,21 @@
                 </div>
             </div>
         </div>
+            
+            <!-- Hilos Tab -->
+            <div class="tab-pane" id="hilos">
+                <div class="msg-card msg-thread" style="border-radius: var(--radius);">
+                    <div class="msg-thread-header">
+                        <div data-msg-thread-title>Hilo</div>
+                        <div class="msg-hint">Hilo del candidato dentro del canal del puesto</div>
+                    </div>
+                    <div class="msg-thread-list" data-msg-thread-list></div>
+                    <div class="msg-composer">
+                        <input type="text" class="msg-input" placeholder="Responder en hilo..." data-msg-thread-input>
+                        <button class="msg-send-btn" data-msg-thread-send>Enviar</button>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
     <footer class="site-footer">2025 Desarrollado por <a href="https://iarvix.ai" target="_blank" rel="noopener noreferrer"><strong>iarvix.ai</strong></a> en demo para ARI. No se permite el uso, copia ni distribución.</footer>
@@ -1469,6 +1492,19 @@
                 console.log('Document action:', action);
             });
         });
+        // Si existe la pestaña hilos, abrir el hilo del candidato al activar la pestaña
+        document.addEventListener('click', function(e) {
+            const target = e.target;
+            if (target.closest('.tab-button') && target.closest('.tab-button').dataset.tab === 'hilos') {
+                const nameEl = document.querySelector('.candidate-name');
+                const candidateName = nameEl ? nameEl.textContent.trim() : '';
+                if (window.MessagingUI && candidateName) {
+                    window.MessagingUI.openCandidateThread(candidateName, { etapa: 'Perfil', match: document.querySelector('.match-percentage')?.textContent || '-' });
+                }
+            }
+        });
     </script>
+    <link rel="stylesheet" href="assets/css/messaging.css">
+    <script src="assets/js/messaging.js"></script>
 </body>
 </html>

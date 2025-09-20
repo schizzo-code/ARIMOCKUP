@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARI Reclutamiento - Mensajes</title>
+    <style>
+        :root {
+            --background: oklch(1.0000 0 0);
+            --foreground: oklch(0.1884 0.0128 248.5103);
+            --card: oklch(0.9784 0.0011 197.1387);
+            --card-foreground: oklch(0.1884 0.0128 248.5103);
+            --primary: oklch(0.8015 0.1571 90.9558);
+            --primary-foreground: oklch(1.0000 0 0);
+            --secondary: oklch(0.1884 0.0128 248.5103);
+            --secondary-foreground: oklch(1.0000 0 0);
+            --muted: oklch(0.9222 0.0013 286.3737);
+            --muted-foreground: oklch(0.1884 0.0128 248.5103);
+            --accent: oklch(0.9392 0.0166 250.8453);
+            --accent-foreground: oklch(0.6723 0.1606 244.9955);
+            --border: oklch(0.9317 0.0118 231.6594);
+            --sidebar: oklch(0.9784 0.0011 197.1387);
+            --sidebar-foreground: oklch(0.1884 0.0128 248.5103);
+            --sidebar-border: oklch(0.9271 0.0101 238.5177);
+            --font-sans: 'Open Sans', sans-serif;
+            --radius: 1.3rem;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background: var(--background); color: var(--foreground); display: flex; flex-direction: column; min-height: 100vh; }
+        .top-header { background: var(--background); border-bottom: 1px solid var(--border); padding: 1rem 2rem; display: flex; justify-content: flex-end; align-items: center; gap: 1rem; }
+        .notification-btn { position: relative; background: none; border: none; cursor: pointer; padding: 0.5rem; border-radius: 50%; transition: background-color 0.2s; }
+        .notification-btn:hover { background: var(--accent); }
+        .notification-badge { position: absolute; top: 0; right: 0; background: #ef4444; color: white; border-radius: 50%; width: 8px; height: 8px; }
+        .user-profile { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.5rem; border-radius: 0.5rem; transition: background-color 0.2s; }
+        .user-profile:hover { background: var(--accent); }
+        .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: var(--primary-foreground); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; }
+        .user-name { font-weight: 500; }
+        .main-container { display: flex; flex: 1; }
+        .sidebar { width: 250px; background: var(--sidebar); border-right: 1px solid var(--sidebar-border); padding: 1rem; }
+        .icon { width: 16px; height: 16px; display: inline-block; margin-right: 0.5rem; }
+        .icon-dashboard { background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>') no-repeat center; }
+        .icon-users { background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/></svg>') no-repeat center; }
+        .icon-briefcase { background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0H8m8 0v2a2 2 0 01-2 2H10a2 2 0 01-2-2V6m8 0V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2z"/></svg>') no-repeat center; }
+        .icon-calendar { background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>') no-repeat center; }
+        .icon-chart { background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>') no-repeat center; }
+        .icon-settings { background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>') no-repeat center; }
+        .icon-chat { background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12a8 8 0 01-8 8c-1.266 0-2.457-.293-3.5-.81L3 20l1.81-3.5A7.963 7.963 0 015 12a8 8 0 0116 0z"/></svg>') no-repeat center; }
+        .logo { margin-bottom: 2rem; text-align: center; }
+        .logo h1 { color: var(--primary); font-size: 1.5rem; }
+        .nav-menu { list-style: none; }
+        .nav-item { margin-bottom: 0.5rem; }
+        .nav-link { display: block; padding: 0.75rem; color: var(--sidebar-foreground); text-decoration: none; border-radius: 0.5rem; transition: background-color 0.2s; }
+        .nav-link:hover, .nav-link.active { background: var(--accent); color: var(--accent-foreground); }
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .header { padding: 2rem 2rem 1rem; border-bottom: 1px solid var(--border); background: var(--background); position: sticky; top: 0; z-index: 10; }
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <button class="notification-btn">
+            <span class="icon icon-bell"></span>
+            <span class="notification-badge"></span>
+        </button>
+        <div class="user-profile">
+            <div class="user-avatar">A</div>
+            <span class="user-name">Admin</span>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>ARI</h1>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="dashboard.html" class="nav-link"><span class="icon icon-dashboard"></span>Dashboard</a></li>
+                    <li class="nav-item"><a href="puestos.html" class="nav-link"><span class="icon icon-briefcase"></span>Puestos</a></li>
+                    <li class="nav-item"><a href="candidatos.html" class="nav-link"><span class="icon icon-users"></span>Candidatos</a></li>
+                    <li class="nav-item"><a href="calendario.html" class="nav-link"><span class="icon icon-calendar"></span>Calendario</a></li>
+                    <li class="nav-item"><a href="mensajes.html" class="nav-link active"><span class="icon icon-chat"></span>Mensajes</a></li>
+                    <li class="nav-item"><a href="informes.html" class="nav-link"><span class="icon icon-chart"></span>Informes</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div style="display:flex; align-items:center; justify-content: space-between;">
+                    <h1>Centro de Mensajes</h1>
+                    <div class="msg-hint">General, por cliente y por puesto • Hilos por candidato</div>
+                </div>
+            </header>
+
+            <div style="padding:1rem;">
+                <div class="msg-app" data-msg-app>
+                    <div class="msg-card msg-sidebar">
+                        <div class="msg-sidebar-header">
+                            <strong>Canales</strong>
+                            <input type="search" placeholder="Buscar..." class="msg-search">
+                        </div>
+                        <div data-msg-channel-list></div>
+                    </div>
+                    <div class="msg-card msg-main">
+                        <div class="msg-main-header">
+                            <div data-msg-header>Canal</div>
+                            <div class="msg-hint">Usa hilos para candidatos</div>
+                        </div>
+                        <div class="msg-list" data-msg-list></div>
+                        <div class="msg-composer">
+                            <input type="text" class="msg-input" placeholder="Escribe un mensaje..." data-msg-input>
+                            <button class="msg-send-btn" data-msg-send>Enviar</button>
+                        </div>
+                    </div>
+                    <div class="msg-card msg-thread">
+                        <div class="msg-thread-header">
+                            <div data-msg-thread-title>Hilo</div>
+                            <div class="msg-hint">Hilo contextual del candidato</div>
+                        </div>
+                        <div class="msg-thread-list" data-msg-thread-list></div>
+                        <div class="msg-composer">
+                            <input type="text" class="msg-input" placeholder="Responder en hilo..." data-msg-thread-input>
+                            <button class="msg-send-btn" data-msg-thread-send>Enviar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="site-footer">2025 Desarrollado por <a href="https://iarvix.ai" target="_blank" rel="noopener noreferrer"><strong>iarvix.ai</strong></a> en demo para ARI. No se permite el uso, copia ni distribución.</footer>
+
+    <link rel="stylesheet" href="assets/css/messaging.css">
+    <script src="assets/js/messaging.js"></script>
+</body>
+</html>
+
+

@@ -1,0 +1,176 @@
+.msg-app {
+    display: grid;
+    grid-template-columns: 260px 1fr 380px;
+    gap: 1rem;
+    height: calc(100vh - 260px);
+}
+
+.msg-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.msg-sidebar {
+    padding: 0.75rem;
+}
+
+.msg-sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.msg-search {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    background: var(--background);
+    color: var(--foreground);
+}
+
+.msg-group {
+    margin-top: 0.75rem;
+}
+
+.msg-group-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--muted-foreground);
+    text-transform: uppercase;
+    margin: 0.5rem 0;
+}
+
+.msg-channel-list {
+    display: grid;
+    gap: 0.25rem;
+}
+
+.msg-channel {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.msg-channel:hover {
+    background: var(--accent);
+}
+
+.msg-channel.active {
+    background: var(--accent);
+    color: var(--accent-foreground);
+}
+
+.msg-main {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+.msg-main-header, .msg-thread-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.msg-list, .msg-thread-list {
+    padding: 0.75rem;
+    overflow-y: auto;
+}
+
+.msg-item {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.msg-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.msg-bubble {
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.msg-meta {
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+    margin-top: 0.25rem;
+}
+
+.msg-composer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border-top: 1px solid var(--border);
+}
+
+.msg-input {
+    flex: 1;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    background: var(--background);
+    color: var(--foreground);
+}
+
+.msg-send-btn {
+    padding: 0.5rem 0.9rem;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.msg-thread {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+.msg-thread-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 1rem;
+    background: var(--muted);
+    font-size: 0.75rem;
+}
+
+.msg-hint {
+    color: var(--muted-foreground);
+    font-size: 0.85rem;
+}
+
+.msg-empty {
+    display: grid;
+    place-items: center;
+    color: var(--muted-foreground);
+    height: 100%;
+    font-style: italic;
+}
+
+
